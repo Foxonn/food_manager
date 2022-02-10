@@ -6,11 +6,11 @@ from core.interfaces.ProductExtractor import ProductExtractor
 from core.interfaces.ProductRequest import ProductRequest
 from core.interfaces.Scraper import Scraper
 from impl.extractors import ProductExtractorSbermarket
-from impl.scrapers import ScraperSbermarket
 from impl.requests import (
     ProductRequestPyppeteer,
     ProductRequestSelenium,
 )
+from impl.scrapers import ScraperSbermarket
 
 
 @pytest.fixture
@@ -64,9 +64,10 @@ class TestScraperSbermarket:
         scraper: Scraper,
         extractor: ProductExtractor
     ):
-        url = "https://business.sbermarket.ru/auchan/tvorog-prostokvashino-rassypchatyy-5-320-g-1108399"
+        # url = "https://business.sbermarket.ru/auchan/tvorog-prostokvashino-rassypchatyy-5-320-g-1108399"
+        url = "https://business.sbermarket.ru/auchan/golien-pietielinka-s-kozhiei"
         parse_page = await scraper.get_product(url)
         product = await extractor(parse_page)
-        print('*'*30)
+        print('\n' + '*' * 30)
         print(*[product], sep='\n\r')
-        print('*'*30)
+        print('*' * 30 + '\n')

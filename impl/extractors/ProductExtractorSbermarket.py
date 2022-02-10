@@ -42,9 +42,9 @@ class ProductExtractorSbermarket(ProductExtractor):
         price = float(
             soup.select_one(self.__selector_price).attrs['content'].strip()
         )
-        weight = soup.select_one(
+        weight, unit_measurement = soup.select_one(
             self.__selector_weight
-        ).text.strip().split()[0]
+        ).text.strip().split()
         nutrition = dict(zip(
             [
                 data.text.strip()
@@ -63,5 +63,6 @@ class ProductExtractorSbermarket(ProductExtractor):
             fats=nutrition['Жиры'],
             carbohydrates=nutrition['Углеводы'],
             callories=nutrition['Калорийность'],
+            unit_measurement=unit_measurement,
             weight=weight,
         )
