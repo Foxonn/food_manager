@@ -22,14 +22,9 @@ class ProductRequestPyppeteer(ProductRequest):
     def type(self) -> str:
         return "pyppeteer"
 
-    async def get(self, url: str) -> str:
+    async def __call__(self, url: str) -> str:
         page = await self.__browser.newPage()
-        try:
-            await page.goto(url)
-            content = await page.content()
-        except Exception:
-            raise
-        else:
-            return content
-        finally:
-            await self.__browser.close()
+        await page.goto(url)
+        content = await page.content()
+        await page.close()
+        return content

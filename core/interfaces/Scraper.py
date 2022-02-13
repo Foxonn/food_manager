@@ -10,5 +10,5 @@ class Scraper:
     def type(self) -> str:
         raise NotImplementedError
 
-    async def get_product(self, url: str) -> Collection:
+    async def __call__(self, url: str) -> Collection:
         raise NotImplementedError

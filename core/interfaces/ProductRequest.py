@@ -10,5 +10,5 @@ class ProductRequest:
     def type(self) -> str:
         raise NotImplementedError
 
-    async def get(self, url: str) -> Collection:
+    async def __call__(self, url: str) -> Collection:
         raise NotImplementedError

@@ -20,5 +20,5 @@ class ScraperSbermarket(Scraper):
     def type(self) -> str:
         return "sbermarket"
 
-    async def get_product(self, url: str) -> Collection:
-        return await self.__request.get(url)
+    async def __call__(self, url: str) -> Collection:
+        return await self.__request(url)
