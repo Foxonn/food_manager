@@ -1,10 +1,11 @@
 import asyncio
 from asyncio import (
-    CancelledError, Future,
-    Task, sleep,
+    Future,
+    Task,
+    sleep,
 )
-from copy import deepcopy
 from functools import partial
+from itertools import zip_longest
 from typing import (
     Dict,
     List,
@@ -25,6 +26,7 @@ class TaskScraperManagerImpl(TaskScraperManager):
         "__background_task",
         "__futures",
         "__scraper",
+        "__tasks",
     )
 
     def __init__(
@@ -33,17 +35,22 @@ class TaskScraperManagerImpl(TaskScraperManager):
     ) -> None:
         self.__scraper = scraper
         self.__futures: Optional[Dict[str, (str, Future)]] = {}
+        self.__tasks: Optional[Dict[str, Task]] = {}
         self.__background_task: Optional[Task] = None
 
-    async def add_task(self, url: str) -> None:
-        id = str(uuid4())
-        future = Future()
-        self.__futures[id] = (url, future)
-        await future
-
-        print('\n' + '*'*30)
-        print(*[future.result()], sep='\n\r')
-        print('*'*30 + '\n')
+    async def add_tasks(self, urls: List[str]) -> None:
+        batch_urls = self.grouper(3, urls)
+        for urls in batch_urls:
+            for url in urls:
+                if not url:
+                    continue
+                id = str(uuid4())
+                future = Future()
+                self.__futures[id] = (url, future)
+            await asyncio.wait(
+                [item[1] for item in self.__futures.values()],
+                timeout=60,
+            )
 
     async def __request(self, url: str) -> None:
         await self.__scraper(url)
@@ -51,23 +58,31 @@ class TaskScraperManagerImpl(TaskScraperManager):
     async def __background_worker(self):
         while True:
             if self.__futures:
-                tasks: List[Task] = []
                 for item in self.__futures.copy().items():
                     id, value = item
                     url, future = value
                     task = asyncio.create_task(self.__scraper(url))
-                    task.add_done_callback(partial(
-                        self.__callback,
-                        future=future)
+                    task.add_done_callback(
+                        partial(
+                            self.__callback,
+                            future=future,
+                            task=task,
+                            id=id,
+                        )
                     )
-                    tasks.append(task)
-                await asyncio.wait(tasks)
+                    self.__tasks[id] = task
+                await asyncio.wait(self.__tasks.values())
+                await sleep(3)
             await sleep(0.1)
 
     def __callback(self, *args, **kwargs) -> None:
         future: Future = kwargs['future']
-        future.set_result(True)
-        del future
+        task: Task = kwargs['task']
+        id: str = kwargs['id']
+        future.set_result(task.result())
+
+        del self.__futures[id]
+        del self.__tasks[id]
 
     def initialize(self) -> None:
         if not self.__background_task:
@@ -81,3 +96,9 @@ class TaskScraperManagerImpl(TaskScraperManager):
                 await sleep(1)
 
             self.__background_task.cancel()
+
+    @staticmethod
+    def grouper(n, iterable, fillvalue=None):
+        """grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"""
+        args = [iter(iterable)] * n
+        return zip_longest(fillvalue=fillvalue, *args)

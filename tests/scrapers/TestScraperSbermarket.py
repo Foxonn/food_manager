@@ -85,12 +85,17 @@ class TestScraperSbermarket:
     async def test_get_product(
         self,
         extractor: ProductExtractor,
-        scraper: Scraper,
         tasks_manager: TaskScraperManager,
     ):
-        await tasks_manager.add_task("https://business.sbermarket.ru/auchan/golien-pietielinka-s-kozhiei")
-        # await tasks_manager.run("https://business.sbermarket.ru/auchan/grudka-indeyki-file-pava-pava-premium-ohlazhdennaya-600-g")
-        # await tasks_manager.deinitialize()
+        await tasks_manager.add_tasks(
+            [
+                "https://business.sbermarket.ru/auchan/golien-pietielinka-s-kozhiei",
+                "https://business.sbermarket.ru/auchan/grudka-indeyki-file-pava-pava-premium-ohlazhdennaya-600-g",
+                "https://business.sbermarket.ru/auchan/file-bedra-tsyplenka-rokoko-ohlazhdennoe-750-g",
+                "https://business.sbermarket.ru/auchan/okorochok-tsyplenka-broylera-s-kozhey-kazhdyy-den-ohlazhdennyy-700-g"
+            ]
+        )
+        await tasks_manager.deinitialize()
 
         # product = await extractor(parse_page)
         # print('\n' + '*' * 30)

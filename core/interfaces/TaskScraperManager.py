@@ -1,3 +1,5 @@
+from typing import Collection
+
 __all__ = [
     "TaskScraperManager",
 ]
@@ -6,7 +8,7 @@ __all__ = [
 class TaskScraperManager:
     __slots__ = ()
 
-    async def add_task(self, url: str) -> None:
+    async def add_tasks(self, urls: Collection) -> None:
         raise NotImplementedError
 
     def initialize(self) -> None:
