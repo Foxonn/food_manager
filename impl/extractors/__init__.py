@@ -1,2 +1,0 @@
-from .ProductExtractorAuchan import ProductExtractorAuchan
-from .ProductExtractorSbermarket import ProductExtractorSbermarket

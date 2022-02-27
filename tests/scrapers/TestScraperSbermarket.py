@@ -9,11 +9,11 @@ from core.interfaces import (
     TaskScraperManager,
 )
 from impl.extractors import ProductExtractorSbermarket
-from impl.requests import (
+from impl.request import (
     ProductRequestPyppeteer,
     ProductRequestSelenium,
 )
-from impl.scrapers import ScraperSbermarket
+from impl.scraper import ScraperSbermarket
 from impl.tasks_scraper_manager import (
     TaskScraperManagerImpl,
     TaskScraperManagerImpl2
