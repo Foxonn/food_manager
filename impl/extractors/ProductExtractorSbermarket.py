@@ -36,7 +36,7 @@ class ProductExtractorSbermarket(ProductExtractor):
     def type(self) -> str:
         return "sbermarket"
 
-    async def __call__(self, data: str) -> FoodProduct:
+    def __call__(self, data: str) -> FoodProduct:
         soup = BeautifulSoup(data, 'html.parser')
         name = soup.select_one(self.__selector_name).text.strip()
         price = float(

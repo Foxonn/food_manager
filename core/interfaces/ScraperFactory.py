@@ -1,4 +1,4 @@
-from core.interfaces.Scraper import Scraper
+from core.interfaces import Scraper
 
 __all__ = [
     "ScraperFactory",

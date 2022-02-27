@@ -12,5 +12,5 @@ class ProductExtractor:
     def type(self) -> str:
         raise NotImplementedError
 
-    async def __call__(self, data: Collection) -> FoodProduct:
+    def __call__(self, data: Collection) -> FoodProduct:
         raise NotImplementedError

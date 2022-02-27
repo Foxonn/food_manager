@@ -1,1 +1,2 @@
 from .TaskScraperManagerImpl import TaskScraperManagerImpl
+from .TaskScraperManagerImpl2 import TaskScraperManagerImpl2

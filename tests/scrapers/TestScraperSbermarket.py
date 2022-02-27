@@ -1,30 +1,30 @@
-from time import sleep
-from uuid import uuid4
-
 import pytest
 from pyppeteer import launch
 from selenium import webdriver
 
-from core.interfaces.ProductExtractor import ProductExtractor
-from core.interfaces.ProductRequest import ProductRequest
-from core.interfaces.Scraper import Scraper
-from core.interfaces.TaskScraperManager import TaskScraperManager
+from core.interfaces import (
+    ProductExtractor,
+    ProductRequest,
+    Scraper,
+    TaskScraperManager,
+)
 from impl.extractors import ProductExtractorSbermarket
 from impl.requests import (
     ProductRequestPyppeteer,
     ProductRequestSelenium,
 )
 from impl.scrapers import ScraperSbermarket
-from impl.tasks_scraper_manager import TaskScraperManagerImpl
+from impl.tasks_scraper_manager import (
+    TaskScraperManagerImpl,
+    TaskScraperManagerImpl2
+)
 
 
 @pytest.fixture
 @pytest.mark.asyncio
 async def product_request_pyppeteer() -> ProductRequest:
     browser = await launch(
-        options={
-            'headless': False
-        }
+        options={'headless': False}
     )
     request = ProductRequestPyppeteer(browser)
     yield request
@@ -60,8 +60,15 @@ async def scraper(product_request_pyppeteer: ProductRequest) -> Scraper:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def tasks_manager(scraper: Scraper) -> TaskScraperManager:
-    tasks_manager = TaskScraperManagerImpl(scraper)
+async def task_scraper_manager(scraper: Scraper) -> TaskScraperManager:
+    tasks_manager = TaskScraperManagerImpl(
+        scraper=scraper,
+        settings={
+            "batch_urls": 3,
+            "waits_evaluate_batch_tasks": 60,
+            "timeout_loop": 3,
+        }
+    )
     tasks_manager.initialize()
     return tasks_manager
 
@@ -85,17 +92,24 @@ class TestScraperSbermarket:
     async def test_get_product(
         self,
         extractor: ProductExtractor,
-        tasks_manager: TaskScraperManager,
+        task_scraper_manager: TaskScraperManager,
     ):
-        await tasks_manager.add_tasks(
-            [
-                "https://business.sbermarket.ru/auchan/golien-pietielinka-s-kozhiei",
-                "https://business.sbermarket.ru/auchan/grudka-indeyki-file-pava-pava-premium-ohlazhdennaya-600-g",
-                "https://business.sbermarket.ru/auchan/file-bedra-tsyplenka-rokoko-ohlazhdennoe-750-g",
-                "https://business.sbermarket.ru/auchan/okorochok-tsyplenka-broylera-s-kozhey-kazhdyy-den-ohlazhdennyy-700-g"
-            ]
-        )
-        await tasks_manager.deinitialize()
+
+        def callback(html_page: str) -> None:
+            product = extractor(html_page)
+
+            print('\n' + '*'*30)
+            print(*[product], sep='\n\r')
+            print('*'*30 + '\n')
+
+        task_scraper_manager.set_callable_command(callback)
+        await task_scraper_manager.parse_page([
+            "https://sbermarket.ru/auchan/golien-pietielinka-s-kozhiei",
+            "https://sbermarket.ru/auchan/ponchiki-auchan-s-varenoy-sguschenkoy-85-g-h-4-sht",
+            "https://sbermarket.ru/auchan/moloko-luzhaykino-pasterizovannoe-2-5-900-ml",
+            "https://sbermarket.ru/auchan/smetana-luzinskoe-moloko-termostatnaya-10-350-g"
+        ])
+        await task_scraper_manager.deinitialize()
 
         # product = await extractor(parse_page)
         # print('\n' + '*' * 30)

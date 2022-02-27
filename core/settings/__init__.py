@@ -1,1 +1,2 @@
 from .SettingsSbermarket import SettingsSbermarket
+from .SettingsTaskScraperManager import SettingsTaskScraperManager

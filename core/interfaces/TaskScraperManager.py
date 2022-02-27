@@ -1,4 +1,7 @@
-from typing import Collection
+from typing import (
+    Collection,
+    Callable,
+)
 
 __all__ = [
     "TaskScraperManager",
@@ -8,7 +11,10 @@ __all__ = [
 class TaskScraperManager:
     __slots__ = ()
 
-    async def add_tasks(self, urls: Collection) -> None:
+    def set_callable_command(self, callback: Callable[[str], None]) -> None:
+        raise NotImplementedError
+
+    async def parse_page(self, urls: Collection) -> None:
         raise NotImplementedError
 
     def initialize(self) -> None:

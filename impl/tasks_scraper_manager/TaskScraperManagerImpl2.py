@@ -6,31 +6,23 @@ from asyncio import (
 )
 from functools import partial
 from itertools import zip_longest
-from uuid import uuid4
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    List,
-    Optional,
-    Coroutine
-)
+from typing import (Any, Callable, Dict, List, Optional, Coroutine)
+from uuid import UUID, uuid4
 
 from core.interfaces.Scraper import Scraper
 from core.interfaces.TaskScraperManager import TaskScraperManager
 from core.settings import SettingsTaskScraperManager
 
 __all__ = [
-    "TaskScraperManagerImpl",
+    "TaskScraperManagerImpl2",
 ]
 
 
-class TaskScraperManagerImpl(TaskScraperManager):
+class TaskScraperManagerImpl2(TaskScraperManager):
     __slots__ = (
         "__background_task",
         "__futures",
         "__scraper",
-        "__tasks",
         "__settings",
         "__callback",
     )
@@ -44,37 +36,19 @@ class TaskScraperManagerImpl(TaskScraperManager):
         self.__scraper = scraper
         self.__callback: Optional[Callable[[str], str]] = None
         self.__futures: Optional[Dict[str, (str, Future)]] = {}
-        self.__tasks: Optional[Dict[str, Task]] = {}
         self.__background_task: Optional[Task] = None
 
-    def set_callable_command(
-        self,
-        callback: Coroutine[Any, Any, None]
-    ) -> None:
+    def set_callable_command(self, callback: Coroutine[Any, Any, None]) -> None:
         self.__callback = callback
 
-    async def parse_page(
-        self,
-        urls: List[str]
-    ) -> None:
+    async def parse_page(self, urls: List[str]) -> None:
         if self.__callback is None:
             raise ValueError("Need set callable function!")
 
-        batch_urls = self.grouper(
-            self.__settings.batch_urls,
-            urls
-        )
-        for urls in batch_urls:
-            for url in urls:
-                if not url:
-                    continue
-                id = str(uuid4())
-                future = Future()
-                self.__futures[id] = (url, future)
-            await asyncio.wait(
-                [item[1] for item in self.__futures.values()],
-                timeout=self.__settings.timeout_execute_batch_tasks,
-            )
+        for url in urls:
+            future: Future = Future()
+            id: UUID = uuid4()
+            self.__futures[str(id)] = (url, future)
 
     async def __request(self, url: str) -> None:
         await self.__scraper(url)
@@ -82,32 +56,34 @@ class TaskScraperManagerImpl(TaskScraperManager):
     async def __background_worker(self):
         while True:
             if self.__futures:
-                for item in self.__futures.copy().items():
-                    id, value = item
-                    url, future = value
-                    task = asyncio.create_task(self.__scraper(url))
-                    task.add_done_callback(
-                        partial(
-                            self.__callback_task,
-                            future=future,
-                            task=task,
-                            id=id,
+                for group in self.__futures.copy():
+                    tasks = []
+                    for item in group.items():
+                        id, value = item
+                        url, future = value
+                        task = asyncio.create_task(self.__scraper(url))
+                        task.add_done_callback(
+                            partial(
+                                self.__callback_task,
+                                future=future,
+                                task=task,
+                                id=id,
+                            )
                         )
-                    )
-                    self.__tasks[id] = task
-                await asyncio.wait(self.__tasks.values())
-                await sleep(self.__settings.timeout_loop)
+                        tasks.append(task)
+                    await asyncio.wait(tasks)
+                    await sleep(self.__settings.timeout_loop)
             await sleep(0.01)
 
     def __callback_task(self, *args, **kwargs) -> None:
         future: Future = kwargs['future']
         task: Task = kwargs['task']
         id: str = kwargs['id']
-
         future.set_result(task.result())
 
-        del self.__futures[id]
-        del self.__tasks[id]
+        for group in self.__futures:
+            for item in group:
+                del item[id]
 
         self.__callback(task.result())
 
@@ -125,11 +101,7 @@ class TaskScraperManagerImpl(TaskScraperManager):
             self.__background_task.cancel()
 
     @staticmethod
-    def grouper(
-        n,
-        iterable,
-        fillvalue=None
-    ):
+    def grouper(n, iterable, fillvalue=None):
         """grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"""
         args = [iter(iterable)] * n
         return zip_longest(fillvalue=fillvalue, *args)
