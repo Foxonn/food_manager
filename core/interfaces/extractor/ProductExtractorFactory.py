@@ -15,5 +15,8 @@ class ProductExtractorFactory:
     def type(self) -> str:
         raise NotImplementedError
 
-    async def get_instance(self, settings: Mapping[str, Any]) -> ProductExtractor:
+    async def get_instance(
+        self,
+        settings: Mapping[str, Any]
+    ) -> ProductExtractor:
         raise NotImplementedError

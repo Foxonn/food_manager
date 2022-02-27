@@ -1,9 +1,12 @@
 from typing import (
     Any,
-    Mapping
+    Mapping,
 )
 
 from core.interfaces.extractor.ProductExtractor import ProductExtractor
+from core.interfaces.extractor.ProductExtractorFactory import (
+    ProductExtractorFactory
+)
 
 __all__ = [
     "ProductExtractorFactoryStoreFactory",
@@ -11,8 +14,12 @@ __all__ = [
 
 
 class ProductExtractorFactoryStoreFactory:
-    async def add_instance(self, instance: ProductExtractor) -> None:
+    async def add_instance(self, instance: ProductExtractorFactory) -> None:
         raise NotImplementedError
 
-    async def get_instance(self, settings: Mapping[str, Any]) -> ProductExtractor:
+    async def get_instance(
+        self,
+        type: str,
+        settings: Mapping[str, Any]
+    ) -> ProductExtractor:
         raise NotImplementedError

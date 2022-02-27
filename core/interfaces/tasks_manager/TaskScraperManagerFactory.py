@@ -15,5 +15,8 @@ class TaskScraperManagerFactory:
     def type(self) -> str:
         raise NotImplementedError
 
-    async def get_instance(self, settings: Mapping[str, Any]) -> TaskScraperManager:
+    async def get_instance(
+        self,
+        settings: Mapping[str, Any]
+    ) -> TaskScraperManager:
         raise NotImplementedError

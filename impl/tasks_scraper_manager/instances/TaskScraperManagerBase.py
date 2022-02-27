@@ -18,14 +18,14 @@ from typing import (
 
 from core.interfaces.scraper.ProductScraper import ProductScraper
 from core.interfaces.tasks_manager.TaskScraperManager import TaskScraperManager
-from core.settings import SettingsTaskScraperManager
+from core.settings import SettingsTaskScraperBaseManager
 
 __all__ = [
-    "TaskScraperManagerImpl",
+    "TaskScraperManagerBase",
 ]
 
 
-class TaskScraperManagerImpl(TaskScraperManager):
+class TaskScraperManagerBase(TaskScraperManager):
     __slots__ = (
         "__background_task",
         "__futures",
@@ -40,7 +40,7 @@ class TaskScraperManagerImpl(TaskScraperManager):
         settings: Dict[str, Any],
         scraper: ProductScraper,
     ) -> None:
-        self.__settings = SettingsTaskScraperManager(**settings)
+        self.__settings = SettingsTaskScraperBaseManager(**settings)
         self.__scraper = scraper
         self.__callback: Optional[Callable[[str], str]] = None
         self.__futures: Optional[Dict[str, (str, Future)]] = {}

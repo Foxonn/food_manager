@@ -1,0 +1,1 @@
+from .ProductExtractorSbermarketFactory import ProductExtractorSbermarketFactory

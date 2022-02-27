@@ -32,10 +32,6 @@ class ProductExtractorSbermarket(ProductExtractor):
         self.__selector_nutrition_name = self.__settings.selector_nutrition_name
         self.__selector_nutrition_value = self.__settings.selector_nutrition_value
 
-    @property
-    def type(self) -> str:
-        return "sbermarket"
-
     def __call__(self, data: str) -> FoodProduct:
         soup = BeautifulSoup(data, 'html.parser')
         name = soup.select_one(self.__selector_name).text.strip()
