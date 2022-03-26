@@ -1,6 +1,6 @@
 from typing import (
     Any,
-    Dict
+    Dict,
 )
 
 from core.interfaces.extractor.ProductExtractorFactoryStoreFactory import (
@@ -30,14 +30,13 @@ from impl.scraper.factories import ProductScraperSbermarketFactory
 from impl.tasks_scraper_manager.TaskScraperManagerFactoryStoreFactoryImpl import (
     TaskScraperManagerFactoryStoreFactoryImpl
 )
+from impl.tasks_scraper_manager.factories import TaskScraperManagerBaseFactory
 
 __all__ = ['build_app']
 
-from impl.tasks_scraper_manager.factories import TaskScraperManagerBaseFactory
-
 
 async def build_app(ioc: Dict[Any, Any]) -> None:
-    # register TaskScraperManagerFactory
+    # register TaskScraperManagerFactoryStoreFactory
     task_scraper_manager_store = TaskScraperManagerFactoryStoreFactoryImpl()
     await task_scraper_manager_store.add_instance(
         TaskScraperManagerBaseFactory()
@@ -56,10 +55,9 @@ async def build_app(ioc: Dict[Any, Any]) -> None:
     await product_request_factory_store.add_instance(
         ProductRequestPyppeteerFactory()
     )
-    ioc[
-        ProductRequestFactoryStoreFactory] = ProductRequestFactoryStoreFactoryImpl()
+    ioc[ProductRequestFactoryStoreFactory] = product_request_factory_store
 
-    # register ProductRequestFactoryStoreFactory
+    # register ProductScraperFactoryStoreFactory
     product_scraper_factory_store = ProductScraperFactoryStoreFactoryImpl()
     await product_scraper_factory_store.add_instance(
         ProductScraperSbermarketFactory()
