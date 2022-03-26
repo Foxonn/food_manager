@@ -1,8 +1,3 @@
-from typing import (
-    Any,
-    Mapping
-)
-
 from core.interfaces.scraper.ProductScraper import ProductScraper
 
 __all__ = [
@@ -11,9 +6,5 @@ __all__ = [
 
 
 class ProductScraperFactory:
-    @property
-    def type(self) -> str:
-        raise NotImplementedError
-
-    async def get_instance(self, settings: Mapping[str, Any]) -> ProductScraper:
+    async def __call__(self) -> ProductScraper:
         raise NotImplementedError

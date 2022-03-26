@@ -1,28 +1,28 @@
 from typing import Collection
 
-from aiohttp import ClientSession
+from requests_html import AsyncHTMLSession
 
 from core.interfaces.request.RequestProduct import RequestProduct
 
 __all__ = [
-    "RequestProductAiohttp",
+    "RequestProductHtmlRequest",
 ]
 
 
-class RequestProductAiohttp(RequestProduct):
+class RequestProductHtmlRequest(RequestProduct):
     __slots__ = (
         "__session",
     )
 
     def __init__(
         self,
-        session: ClientSession
+        session: AsyncHTMLSession
     ) -> None:
         self.__session = session
 
     @property
     def type(self) -> str:
-        return "aiohttp"
+        return "html_request"
 
     async def __call__(self, url: str) -> Collection:
         pass

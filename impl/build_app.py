@@ -1,65 +1,27 @@
-from typing import (
-    Any,
-    Dict,
+from galo_ioc import (
+    FactoryContainerImpl,
+    get_factory
 )
 
-from core.interfaces.extractor.ProductExtractorFactoryStoreFactory import (
-    ProductExtractorFactoryStoreFactory
+from core.interfaces.extractor.ExtractorProductFactory import ExtractorProductFactory
+from core.interfaces.tasks_manager.TaskScraperManagerFactory import TaskScraperManagerFactory
+from utils.startup_utils import (
+    get_module_names_path,
+    read_module_names,
+    load_plugins,
 )
-from core.interfaces.request.ProductRequestFactoryStoreFactory import (
-    ProductRequestFactoryStoreFactory
-)
-from core.interfaces.scraper.ProductScraperFactoryStoreFactory import (
-    ProductScraperFactoryStoreFactory
-)
-from core.interfaces.tasks_manager.TaskScraperManagerFactoryStoreFactory import (
-    TaskScraperManagerFactoryStoreFactory
-)
-from impl.extractor.ProductExtractorFactoryStoreFactoryImpl import (
-    ProductExtractorFactoryStoreFactoryImpl
-)
-from impl.extractor.factories import ProductExtractorSbermarketFactory
-from impl.request.ProductRequestFactoryStoreFactoryImpl import (
-    ProductRequestFactoryStoreFactoryImpl
-)
-from impl.request.factories import ProductRequestPyppeteerFactory
-from impl.scraper.ProductScraperFactoryStoreFactoryImpl import (
-    ProductScraperFactoryStoreFactoryImpl
-)
-from impl.scraper.factories import ProductScraperSbermarketFactory
-from impl.tasks_scraper_manager.TaskScraperManagerFactoryStoreFactoryImpl import (
-    TaskScraperManagerFactoryStoreFactoryImpl
-)
-from impl.tasks_scraper_manager.factories import TaskScraperManagerBaseFactory
 
 __all__ = ['build_app']
 
 
-async def build_app(ioc: Dict[Any, Any]) -> None:
-    # register TaskScraperManagerFactoryStoreFactory
-    task_scraper_manager_store = TaskScraperManagerFactoryStoreFactoryImpl()
-    await task_scraper_manager_store.add_instance(
-        TaskScraperManagerBaseFactory()
-    )
-    ioc[TaskScraperManagerFactoryStoreFactory] = task_scraper_manager_store
+async def build_app() -> None:
+    module_names_path = get_module_names_path()
+    module_names = read_module_names(module_names_path)
 
-    # register ProductExtractorFactoryStoreFactory
-    product_extractor_factory_store = ProductExtractorFactoryStoreFactoryImpl()
-    await product_extractor_factory_store.add_instance(
-        ProductExtractorSbermarketFactory()
-    )
-    ioc[ProductExtractorFactoryStoreFactory] = product_extractor_factory_store
+    with FactoryContainerImpl():
+        await load_plugins(module_names)
+        extractor_factory = get_factory(ExtractorProductFactory)
+        task_scraper_manager_factory = get_factory(TaskScraperManagerFactory)
 
-    # register ProductRequestFactoryStoreFactory
-    product_request_factory_store = ProductRequestFactoryStoreFactoryImpl()
-    await product_request_factory_store.add_instance(
-        ProductRequestPyppeteerFactory()
-    )
-    ioc[ProductRequestFactoryStoreFactory] = product_request_factory_store
-
-    # register ProductScraperFactoryStoreFactory
-    product_scraper_factory_store = ProductScraperFactoryStoreFactoryImpl()
-    await product_scraper_factory_store.add_instance(
-        ProductScraperSbermarketFactory()
-    )
-    ioc[ProductScraperFactoryStoreFactory] = product_scraper_factory_store
+        extractor = await extractor_factory()
+        task_scraper_manager = await task_scraper_manager_factory()

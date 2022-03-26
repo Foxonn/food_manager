@@ -1,8 +1,3 @@
-from typing import (
-    Any,
-    Mapping
-)
-
 from core.interfaces.tasks_manager.TaskScraperManager import TaskScraperManager
 
 __all__ = [
@@ -11,12 +6,5 @@ __all__ = [
 
 
 class TaskScraperManagerFactory:
-    @property
-    def type(self) -> str:
-        raise NotImplementedError
-
-    async def get_instance(
-        self,
-        settings: Mapping[str, Any]
-    ) -> TaskScraperManager:
+    async def __call__(self) -> TaskScraperManager:
         raise NotImplementedError

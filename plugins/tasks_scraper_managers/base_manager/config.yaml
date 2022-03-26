@@ -1,0 +1,3 @@
+batch_urls: 3
+waits_evaluate_batch_tasks: 60
+timeout_loop: 3
