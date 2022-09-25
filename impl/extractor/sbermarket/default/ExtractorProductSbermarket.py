@@ -1,11 +1,8 @@
-from typing import Any
-from typing import Dict
-
 from bs4 import BeautifulSoup
 
-from core.entities.FoodProduct import FoodProduct
-from core.interfaces.extractor.ExtractorProduct import ExtractorProduct
-from core.settings import SettingsSbermarket
+from base.core.extractor import ExtractorProduct
+from base.models import FoodProductModel
+from base.settings import SettingsSbermarket
 
 __all__ = ['ExtractorProductSbermarket']
 
@@ -20,15 +17,15 @@ class ExtractorProductSbermarket(ExtractorProduct):
         "__selector_nutrition_value",
     )
 
-    def __init__(self, settings: Dict[str, Any]):
-        self.__settings = SettingsSbermarket(**settings)
+    def __init__(self, settings: SettingsSbermarket) -> None:
+        self.__settings = settings
         self.__selector_name = self.__settings.selector_name
         self.__selector_price = self.__settings.selector_price
         self.__selector_weight = self.__settings.selector_weight
         self.__selector_nutrition_name = self.__settings.selector_nutrition_name
         self.__selector_nutrition_value = self.__settings.selector_nutrition_value
 
-    def __call__(self, data: str) -> FoodProduct:
+    def __call__(self, data: str) -> FoodProductModel:
         soup = BeautifulSoup(data, 'html.parser')
         name = soup.select_one(self.__selector_name).text.strip()
         price = float(
@@ -37,6 +34,7 @@ class ExtractorProductSbermarket(ExtractorProduct):
         weight, unit_measurement = soup.select_one(
             self.__selector_weight
         ).text.strip().split()
+
         nutrition = dict(
             zip(
                 [
@@ -50,7 +48,7 @@ class ExtractorProductSbermarket(ExtractorProduct):
             )
         )
 
-        return FoodProduct(
+        return FoodProductModel(
             name=name,
             price=price,
             proteins=nutrition['Белки'],

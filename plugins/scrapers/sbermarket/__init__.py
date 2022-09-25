@@ -1,16 +1,16 @@
 from galo_ioc import add_factory
 from galo_ioc import get_factory
 
-from core.interfaces.request import RequestProductFactory
-from core.interfaces.scraper import ScraperProduct
-from core.interfaces.scraper import ProductScraperFactory
+from base.core.request import RequestProductFactory
+from base.core.scraper import ScraperProduct
+from base.core.scraper import ScraperProductFactory
 from impl.scraper.instances import ScraperProductSbermarket
 
 __all__ = ["load", ]
 
 
 async def load() -> None:
-    class ProductScraperSbermarketFactory(ProductScraperFactory):
+    class ProductScraperSbermarketFactory(ScraperProductFactory):
         async def __call__(self) -> ScraperProduct:
             return product_scraper_sbermarket
 
@@ -19,6 +19,6 @@ async def load() -> None:
     product_scraper_sbermarket = ScraperProductSbermarket(request)
 
     add_factory(
-        ProductScraperFactory,
+        ScraperProductFactory,
         ProductScraperSbermarketFactory()
     )

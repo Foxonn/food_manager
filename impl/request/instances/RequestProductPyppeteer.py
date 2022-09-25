@@ -1,6 +1,6 @@
 from pyppeteer.browser import Browser
 
-from core.interfaces.request import RequestProduct
+from base.core.request import RequestProduct
 
 __all__ = ['RequestProductPyppeteer']
 

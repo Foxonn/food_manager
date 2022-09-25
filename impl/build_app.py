@@ -1,8 +1,8 @@
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
-from core.interfaces.extractor import ExtractorProductFactory
-from core.interfaces.tasks_manager import ScraperTaskManagerFactory
+from base.core.extractor import ExtractorProductFactory
+from base.core.tasks_manager import TaskManagerScraperFactory
 from utils.startup_utils import get_module_names_path
 from utils.startup_utils import load_plugins
 from utils.startup_utils import read_module_names
@@ -17,7 +17,7 @@ async def build_app() -> None:
     with FactoryContainerImpl():
         await load_plugins(module_names)
         extractor_factory = get_factory(ExtractorProductFactory)
-        task_scraper_manager_factory = get_factory(ScraperTaskManagerFactory)
+        task_scraper_manager_factory = get_factory(TaskManagerScraperFactory)
 
         extractor = await extractor_factory()
         task_scraper_manager = await task_scraper_manager_factory()

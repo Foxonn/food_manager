@@ -1,13 +1,15 @@
 from typing import Any
 from typing import Mapping
 
-from core.interfaces.extractor import ExtractorProduct
-from core.interfaces.extractor import ExtractorProductFactory
+from base.core.extractor import ExtractorProduct
+from base.core.extractor import ExtractorProductFactory
 
 __all__ = ['ExtractorProductFactoryStoreFactory']
 
 
 class ExtractorProductFactoryStoreFactory:
+    __slots__ = ()
+
     async def add_instance(self, instance: ExtractorProductFactory) -> None:
         raise NotImplementedError
 

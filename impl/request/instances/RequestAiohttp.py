@@ -2,7 +2,7 @@ from typing import Collection
 
 from aiohttp import ClientSession
 
-from core.interfaces.request import RequestProduct
+from base.core.request import RequestProduct
 
 __all__ = ['RequestAiohttp']
 

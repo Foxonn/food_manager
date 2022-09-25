@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 
-__all__ = ['FoodProduct']
+__all__ = ['FoodProductModel']
 
 
-class FoodProduct(BaseModel):
+class FoodProductModel(BaseModel):
     name: str
     price: float
     unit_measurement: str

@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from importlib import import_module
+from pathlib import Path
 from typing import Sequence
 
 __all__ = [
@@ -21,12 +22,14 @@ def get_module_names_path() -> str:
 
 
 def read_module_names(module_names_path: str) -> Sequence[str]:
-    with open(module_names_path, mode="r") as file:
-        return [
-            stripped_name
-            for stripped_name in (name.strip() for name in file.readlines())
-            if stripped_name and not stripped_name.startswith("#")
-        ]
+    file = Path(module_names_path)
+    return [
+        stripped_name
+        for stripped_name in (
+            name.strip() for name in file.read_text().split('\n')
+        )
+        if stripped_name and not stripped_name.startswith("#")
+    ]
 
 
 async def load_plugins(module_names: Sequence[str]) -> None:

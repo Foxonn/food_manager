@@ -2,7 +2,7 @@ from typing import Collection
 
 from requests_html import AsyncHTMLSession
 
-from core.interfaces.request import RequestProduct
+from base.core.request import RequestProduct
 
 __all__ = ['RequestProductHtmlRequest']
 

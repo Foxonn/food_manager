@@ -2,24 +2,24 @@ from typing import Any
 from typing import Dict
 from typing import Mapping
 
-from core.interfaces.tasks_manager import ScraperTaskManager
-from core.interfaces.tasks_manager import ScraperTaskManagerFactory
-from core.interfaces.tasks_manager import ScraperTaskManagerFactoryStoreFactory
+from base.core.tasks_manager import TaskManagerScraper
+from base.core.tasks_manager import TaskManagerScraperFactory
+from base.core.tasks_manager import TaskManagerScraperFactoryStoreFactory
 
 __all__ = ['ScraperTaskManagerFactoryStoreFactoryImpl']
 
 
 class ScraperTaskManagerFactoryStoreFactoryImpl(
-    ScraperTaskManagerFactoryStoreFactory
+    TaskManagerScraperFactoryStoreFactory
 ):
     __slots__ = (
         "__instances"
     )
 
     def __init__(self):
-        self.__instances: Dict[str, ScraperTaskManagerFactory] = {}
+        self.__instances: Dict[str, TaskManagerScraperFactory] = {}
 
-    async def add_instance(self, instance: ScraperTaskManagerFactory) -> None:
+    async def add_instance(self, instance: TaskManagerScraperFactory) -> None:
         if instance.type in self.__instances.keys():
             raise KeyError(f"{type(instance)} already register.")
 
@@ -29,7 +29,7 @@ class ScraperTaskManagerFactoryStoreFactoryImpl(
         self,
         type: str,
         settings: Mapping[str, Any]
-    ) -> ScraperTaskManager:
+    ) -> TaskManagerScraper:
         try:
             instance = self.__instances[type]
         except KeyError:

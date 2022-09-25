@@ -12,14 +12,14 @@ from typing import List
 from typing import Optional
 from uuid import uuid4
 
-from core.interfaces.scraper import ScraperProduct
-from core.interfaces.tasks_manager import ScraperTaskManager
-from core.settings import SettingsTaskScraperBaseManager
+from base.core.scraper import ScraperProduct
+from base.core.tasks_manager import TaskManagerScraper
+from base.settings import SettingsTaskScraperBaseManager
 
-__all__ = ['ScraperTaskManagerBase']
+__all__ = ['TaskManagerScraperBase']
 
 
-class ScraperTaskManagerBase(ScraperTaskManager):
+class TaskManagerScraperBase(TaskManagerScraper):
     __slots__ = (
         "__background_task",
         "__futures",

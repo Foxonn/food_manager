@@ -1,12 +1,14 @@
 from typing import Any
 from typing import Mapping
 
-from core.interfaces.request import RequestProduct
+from base.core.request import RequestProduct
 
 __all__ = ['RequestProductFactoryStoreFactory']
 
 
 class RequestProductFactoryStoreFactory:
+    __slots__ = ()
+
     async def add_instance(self, instance: RequestProduct) -> None:
         raise NotImplementedError
 

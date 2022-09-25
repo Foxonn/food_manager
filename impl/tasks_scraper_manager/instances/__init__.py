@@ -1,1 +1,1 @@
-from .ScraperTaskManagerBase import ScraperTaskManagerBase
+from .ScraperTaskManagerBase import TaskManagerScraperBase

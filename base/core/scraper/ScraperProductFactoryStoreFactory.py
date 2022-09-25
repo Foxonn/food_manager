@@ -1,12 +1,14 @@
 from typing import Any
 from typing import Mapping
 
-from core.interfaces.scraper import ScraperProduct
+from base.core.scraper import ScraperProduct
 
-__all__ = ['ProductScraperFactoryStoreFactory']
+__all__ = ['ScraperProductFactoryStoreFactory']
 
 
-class ProductScraperFactoryStoreFactory:
+class ScraperProductFactoryStoreFactory:
+    __slots__ = ()
+
     async def add_instance(self, instance: ScraperProduct) -> None:
         raise NotImplementedError
 

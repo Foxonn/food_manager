@@ -1,1 +1,1 @@
-from .ExtractorProductSbermarket import ExtractorProductSbermarket
+from impl.extractor.sbermarket.default.ExtractorProductSbermarket import ExtractorProductSbermarket

@@ -1,7 +1,7 @@
 from typing import Collection
 
-from core.interfaces.request import RequestProduct
-from core.interfaces.scraper import ScraperProduct
+from base.core.request import RequestProduct
+from base.core.scraper import ScraperProduct
 
 __all__ = ['ScraperProductSbermarket']
 

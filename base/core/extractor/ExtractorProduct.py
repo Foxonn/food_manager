@@ -1,10 +1,12 @@
 from typing import Collection
 
-from core.entities import FoodProduct
+from base.models import FoodProductModel
 
 __all__ = ['ExtractorProduct']
 
 
 class ExtractorProduct:
-    def __call__(self, data: Collection) -> FoodProduct:
+    __slots__ = ()
+
+    def __call__(self, data: Collection) -> FoodProductModel:
         raise NotImplementedError

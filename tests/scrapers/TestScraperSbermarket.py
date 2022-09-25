@@ -2,15 +2,15 @@ import pytest
 from pyppeteer import launch
 from selenium import webdriver
 
-from core.interfaces.extractor import ExtractorProduct
-from core.interfaces.request import RequestProduct
-from core.interfaces.scraper import ScraperProduct
-from core.interfaces.tasks_manager import ScraperTaskManager
+from base.core.extractor import ExtractorProduct
+from base.core.request import RequestProduct
+from base.core.scraper import ScraperProduct
+from base.core.tasks_manager import TaskManagerScraper
 from impl.extractor.sbermarket import ExtractorProductSbermarket
 from impl.request.instances import RequestProductPyppeteer
 from impl.request.instances import RequestProductSelenium
 from impl.scraper.instances import ScraperProductSbermarket
-from impl.tasks_scraper_manager.instances import ScraperTaskManagerBase
+from impl.tasks_scraper_manager.instances import TaskManagerScraperBase
 
 
 @pytest.fixture
@@ -59,8 +59,8 @@ async def scraper(
 @pytest.mark.asyncio
 async def task_scraper_manager(
     scraper: ScraperProduct
-) -> ScraperTaskManager:
-    tasks_manager = ScraperTaskManagerBase(
+) -> TaskManagerScraper:
+    tasks_manager = TaskManagerScraperBase(
         scraper=scraper,
         settings={
             "batch_urls": 2,
@@ -91,7 +91,7 @@ class TestScraperSbermarket:
     async def test_get_product(
         self,
         extractor: ExtractorProduct,
-        task_scraper_manager: ScraperTaskManager,
+        task_scraper_manager: TaskManagerScraper,
     ):
         def callback(html_page: str) -> None:
             product = extractor(html_page)

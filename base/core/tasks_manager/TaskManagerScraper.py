@@ -1,10 +1,10 @@
 from typing import Callable
 from typing import Collection
 
-__all__ = ['ScraperTaskManager']
+__all__ = ['TaskManagerScraper']
 
 
-class ScraperTaskManager:
+class TaskManagerScraper:
     __slots__ = ()
 
     @property
