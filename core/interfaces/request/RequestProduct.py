@@ -1,8 +1,6 @@
 from typing import Collection
 
-__all__ = [
-    "RequestProduct",
-]
+__all__ = ['RequestProduct']
 
 
 class RequestProduct:

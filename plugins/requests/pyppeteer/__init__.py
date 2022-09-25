@@ -9,9 +9,7 @@ from core.interfaces.request.RequestProduct import RequestProduct
 from core.interfaces.request.RequestProductFactory import RequestProductFactory
 from impl.request.instances.RequestProductPyppeteer import RequestProductPyppeteer
 
-__all__ = [
-    "load",
-]
+__all__ = ['load']
 
 
 async def load() -> None:

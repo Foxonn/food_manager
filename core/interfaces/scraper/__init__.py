@@ -1,0 +1,3 @@
+from .ScraperProduct import ScraperProduct
+from .ProductScraperFactory import ProductScraperFactory
+from .ProductScraperFactoryStoreFactory import ProductScraperFactoryStoreFactory

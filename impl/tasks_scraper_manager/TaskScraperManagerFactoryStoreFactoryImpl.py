@@ -1,31 +1,25 @@
-from typing import (
-    Any,
-    Dict,
-    Mapping
-)
+from typing import Any
+from typing import Dict
+from typing import Mapping
 
-from core.interfaces.tasks_manager.TaskScraperManager import TaskScraperManager
-from core.interfaces.tasks_manager.TaskScraperManagerFactory import (
-    TaskScraperManagerFactory
-)
-from core.interfaces.tasks_manager.TaskScraperManagerFactoryStoreFactory import (
-    TaskScraperManagerFactoryStoreFactory
-)
+from core.interfaces.tasks_manager import ScraperTaskManager
+from core.interfaces.tasks_manager import ScraperTaskManagerFactory
+from core.interfaces.tasks_manager import ScraperTaskManagerFactoryStoreFactory
 
-__all__ = ['TaskScraperManagerFactoryStoreFactoryImpl']
+__all__ = ['ScraperTaskManagerFactoryStoreFactoryImpl']
 
 
-class TaskScraperManagerFactoryStoreFactoryImpl(
-    TaskScraperManagerFactoryStoreFactory
+class ScraperTaskManagerFactoryStoreFactoryImpl(
+    ScraperTaskManagerFactoryStoreFactory
 ):
     __slots__ = (
         "__instances"
     )
 
     def __init__(self):
-        self.__instances: Dict[str, TaskScraperManagerFactory] = {}
+        self.__instances: Dict[str, ScraperTaskManagerFactory] = {}
 
-    async def add_instance(self, instance: TaskScraperManagerFactory) -> None:
+    async def add_instance(self, instance: ScraperTaskManagerFactory) -> None:
         if instance.type in self.__instances.keys():
             raise KeyError(f"{type(instance)} already register.")
 
@@ -35,7 +29,7 @@ class TaskScraperManagerFactoryStoreFactoryImpl(
         self,
         type: str,
         settings: Mapping[str, Any]
-    ) -> TaskScraperManager:
+    ) -> ScraperTaskManager:
         try:
             instance = self.__instances[type]
         except KeyError:

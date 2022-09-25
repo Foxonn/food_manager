@@ -1,14 +1,12 @@
 from typing import Collection
 
-from core.interfaces.request.RequestProduct import RequestProduct
-from core.interfaces.scraper.ProductScraper import ProductScraper
+from core.interfaces.request import RequestProduct
+from core.interfaces.scraper import ScraperProduct
 
-__all__ = [
-    "ProductScraperSbermarket",
-]
+__all__ = ['ScraperProductSbermarket']
 
 
-class ProductScraperSbermarket(ProductScraper):
+class ScraperProductSbermarket(ScraperProduct):
     __slots__ = (
         "__request"
     )

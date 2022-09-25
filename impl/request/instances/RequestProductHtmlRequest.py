@@ -2,11 +2,9 @@ from typing import Collection
 
 from requests_html import AsyncHTMLSession
 
-from core.interfaces.request.RequestProduct import RequestProduct
+from core.interfaces.request import RequestProduct
 
-__all__ = [
-    "RequestProductHtmlRequest",
-]
+__all__ = ['RequestProductHtmlRequest']
 
 
 class RequestProductHtmlRequest(RequestProduct):

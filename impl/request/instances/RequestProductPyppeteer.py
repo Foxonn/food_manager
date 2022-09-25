@@ -1,10 +1,8 @@
 from pyppeteer.browser import Browser
 
-from core.interfaces.request.RequestProduct import RequestProduct
+from core.interfaces.request import RequestProduct
 
-__all__ = [
-    "RequestProductPyppeteer",
-]
+__all__ = ['RequestProductPyppeteer']
 
 
 class RequestProductPyppeteer(RequestProduct):

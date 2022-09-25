@@ -1,10 +1,8 @@
 from typing import Collection
 
-from core.entities.FoodProduct import FoodProduct
+from core.entities import FoodProduct
 
-__all__ = [
-    "ExtractorProduct",
-]
+__all__ = ['ExtractorProduct']
 
 
 class ExtractorProduct:

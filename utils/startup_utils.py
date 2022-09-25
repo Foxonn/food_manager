@@ -11,7 +11,11 @@ __all__ = [
 
 def get_module_names_path() -> str:
     parser = ArgumentParser()
-    parser.add_argument("--module-names-path", required=False, default="module_names.txt")
+    parser.add_argument(
+        "--module-names-path",
+        required=False,
+        default="module_names.txt"
+    )
     namespace = parser.parse_args()
     return namespace.module_names_path
 

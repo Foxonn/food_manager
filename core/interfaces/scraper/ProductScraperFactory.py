@@ -1,10 +1,8 @@
-from core.interfaces.scraper.ProductScraper import ProductScraper
+from core.interfaces.scraper import ScraperProduct
 
-__all__ = [
-    "ProductScraperFactory",
-]
+__all__ = ['ProductScraperFactory']
 
 
 class ProductScraperFactory:
-    async def __call__(self) -> ProductScraper:
+    async def __call__(self) -> ScraperProduct:
         raise NotImplementedError

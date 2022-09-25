@@ -2,14 +2,12 @@ from typing import Collection
 
 from aiohttp import ClientSession
 
-from core.interfaces.request.RequestProduct import RequestProduct
+from core.interfaces.request import RequestProduct
 
-__all__ = [
-    "RequestProductAiohttp",
-]
+__all__ = ['RequestAiohttp']
 
 
-class RequestProductAiohttp(RequestProduct):
+class RequestAiohttp(RequestProduct):
     __slots__ = (
         "__session",
     )

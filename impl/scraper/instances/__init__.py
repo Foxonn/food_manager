@@ -1,1 +1,1 @@
-from .ProductScraperSbermarket import ProductScraperSbermarket
+from .ScraperProductSbermarket import ScraperProductSbermarket

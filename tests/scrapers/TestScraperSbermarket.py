@@ -2,38 +2,33 @@ import pytest
 from pyppeteer import launch
 from selenium import webdriver
 
-from core.interfaces import (
-    ProductExtractor,
-    ProductRequest,
-    Scraper,
-    TaskScraperManager,
-)
-from impl.extractors import ProductExtractorSbermarket
-from impl.request import (
-    ProductRequestPyppeteer,
-    ProductRequestSelenium,
-)
-from impl.scraper import ScraperSbermarket
-from impl.tasks_scraper_manager import (
-    TaskScraperManagerImpl,
-    TaskScraperManagerImpl2
-)
+from core.interfaces.extractor import ExtractorProduct
+from core.interfaces.request import RequestProduct
+from core.interfaces.scraper import ScraperProduct
+from core.interfaces.tasks_manager import ScraperTaskManager
+from impl.extractor.sbermarket import ExtractorProductSbermarket
+from impl.request.instances import RequestProductPyppeteer
+from impl.request.instances import RequestProductSelenium
+from impl.scraper.instances import ScraperProductSbermarket
+from impl.tasks_scraper_manager.instances import ScraperTaskManagerBase
 
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def product_request_pyppeteer() -> ProductRequest:
+async def product_request_pyppeteer() -> RequestProduct:
     browser = await launch(
-        options={'headless': False}
+        options={
+            'headless': False
+        }
     )
-    request = ProductRequestPyppeteer(browser)
+    request = RequestProductPyppeteer(browser)
     yield request
     await browser.close()
 
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def product_request_selenium_chrome() -> ProductRequest:
+async def product_request_selenium_chrome() -> RequestProduct:
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--no-sandbox')
     browser = webdriver.Chrome(
@@ -42,7 +37,7 @@ async def product_request_selenium_chrome() -> ProductRequest:
     )
 
     try:
-        request = ProductRequestSelenium(browser)
+        request = RequestProductSelenium(browser)
     except Exception:
         raise
     else:
@@ -53,18 +48,22 @@ async def product_request_selenium_chrome() -> ProductRequest:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def scraper(product_request_pyppeteer: ProductRequest) -> Scraper:
-    scraper = ScraperSbermarket(product_request_pyppeteer)
+async def scraper(
+    product_request_pyppeteer: RequestProduct
+) -> ScraperProduct:
+    scraper = ScraperProductSbermarket(product_request_pyppeteer)
     return scraper
 
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def task_scraper_manager(scraper: Scraper) -> TaskScraperManager:
-    tasks_manager = TaskScraperManagerImpl(
+async def task_scraper_manager(
+    scraper: ScraperProduct
+) -> ScraperTaskManager:
+    tasks_manager = ScraperTaskManagerBase(
         scraper=scraper,
         settings={
-            "batch_urls": 3,
+            "batch_urls": 2,
             "waits_evaluate_batch_tasks": 60,
             "timeout_loop": 3,
         }
@@ -75,7 +74,7 @@ async def task_scraper_manager(scraper: Scraper) -> TaskScraperManager:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def extractor() -> ProductExtractor:
+async def extractor() -> ExtractorProduct:
     settings = {
         "selector_name": "h1[itemprop=name]",
         "selector_price": "meta[itemprop=price]",
@@ -83,7 +82,7 @@ async def extractor() -> ProductExtractor:
         "selector_nutrition_name": ".nutrition .product-properties .product-property__name",
         "selector_nutrition_value": ".nutrition .product-properties .product-property__value",
     }
-    extractor = ProductExtractorSbermarket(settings)
+    extractor = ExtractorProductSbermarket(settings)
     return extractor
 
 
@@ -91,24 +90,25 @@ class TestScraperSbermarket:
     @pytest.mark.asyncio
     async def test_get_product(
         self,
-        extractor: ProductExtractor,
-        task_scraper_manager: TaskScraperManager,
+        extractor: ExtractorProduct,
+        task_scraper_manager: ScraperTaskManager,
     ):
-
         def callback(html_page: str) -> None:
             product = extractor(html_page)
 
-            print('\n' + '*'*30)
+            print('\n' + '*' * 30)
             print(*[product], sep='\n\r')
-            print('*'*30 + '\n')
+            print('*' * 30 + '\n')
 
         task_scraper_manager.set_callable_command(callback)
-        await task_scraper_manager.parse_page([
-            "https://sbermarket.ru/auchan/golien-pietielinka-s-kozhiei",
-            "https://sbermarket.ru/auchan/ponchiki-auchan-s-varenoy-sguschenkoy-85-g-h-4-sht",
-            "https://sbermarket.ru/auchan/moloko-luzhaykino-pasterizovannoe-2-5-900-ml",
-            "https://sbermarket.ru/auchan/smetana-luzinskoe-moloko-termostatnaya-10-350-g"
-        ])
+        await task_scraper_manager.parse_page(
+            [
+                "https://sbermarket.ru/auchan/golien-pietielinka-s-kozhiei",
+                "https://sbermarket.ru/auchan/ponchiki-auchan-s-varenoy-sguschenkoy-85-g-h-4-sht",
+                "https://sbermarket.ru/auchan/moloko-luzhaykino-pasterizovannoe-2-5-900-ml",
+                "https://sbermarket.ru/auchan/smetana-luzinskoe-moloko-termostatnaya-10-350-g"
+            ]
+        )
         await task_scraper_manager.deinitialize()
 
         # product = await extractor(parse_page)

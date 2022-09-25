@@ -1,15 +1,15 @@
-from typing import (
-    Collection,
-    Callable,
-)
+from typing import Callable
+from typing import Collection
 
-__all__ = [
-    "TaskScraperManager",
-]
+__all__ = ['ScraperTaskManager']
 
 
-class TaskScraperManager:
+class ScraperTaskManager:
     __slots__ = ()
+
+    @property
+    def type(self) -> str:
+        raise NotImplementedError
 
     def set_callable_command(self, callback: Callable[[str], None]) -> None:
         raise NotImplementedError

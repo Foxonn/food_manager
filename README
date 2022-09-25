@@ -2,4 +2,4 @@
     * ScraperProductFactoryStoreFactory
     * RequestProductFactoryStoreFactory
     * ExtractorProductFactoryStoreFactory
-    * TaskScraperManagerFactoryStoreFactory
+    * ScraperTaskManagerFactoryStoreFactory

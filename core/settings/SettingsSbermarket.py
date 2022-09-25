@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 
-__all__ = [
-    "SettingsSbermarket",
-]
+__all__ = ['SettingsSbermarket']
 
 
 class SettingsSbermarket(BaseModel):

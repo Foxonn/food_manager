@@ -1,13 +1,11 @@
 from pydantic import BaseModel
 
-__all__ = [
-    "SettingsTaskScraperBaseManager",
-]
+__all__ = ['SettingsTaskScraperBaseManager']
 
 
 class SettingsTaskScraperBaseManager(BaseModel):
     """
-    :param
+    param
         waits_evaluate_batch_tasks: 60 sec
     """
     batch_urls: int = 3

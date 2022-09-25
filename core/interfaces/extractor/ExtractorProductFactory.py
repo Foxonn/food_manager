@@ -1,8 +1,6 @@
-from core.interfaces.extractor.ExtractorProduct import ExtractorProduct
+from core.interfaces.extractor import ExtractorProduct
 
-__all__ = [
-    "ExtractorProductFactory",
-]
+__all__ = ['ExtractorProductFactory']
 
 
 class ExtractorProductFactory:

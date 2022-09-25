@@ -1,8 +1,6 @@
-from core.interfaces.request.RequestProduct import RequestProduct
+from core.interfaces.request import RequestProduct
 
-__all__ = [
-    "RequestProductFactory",
-]
+__all__ = ['RequestProductFactory']
 
 
 class RequestProductFactory:

@@ -7,9 +7,7 @@ from core.interfaces.extractor.ExtractorProduct import ExtractorProduct
 from core.interfaces.extractor.ExtractorProductFactory import ExtractorProductFactory
 from impl.extractor.sbermarket.ExtractorProductSbermarket import ExtractorProductSbermarket
 
-__all__ = [
-    "load",
-]
+__all__ = ['load']
 
 
 async def load() -> None:

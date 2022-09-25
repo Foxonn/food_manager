@@ -1,10 +1,8 @@
 from typing import Collection
 
-__all__ = [
-    "ProductScraper",
-]
+__all__ = ['ScraperProduct']
 
 
-class ProductScraper:
+class ScraperProduct:
     async def __call__(self, url: str) -> Collection:
         raise NotImplementedError

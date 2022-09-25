@@ -1,31 +1,25 @@
 import asyncio
-from asyncio import (
-    Future,
-    Task,
-    sleep,
-)
+from asyncio import Future
+from asyncio import Task
+from asyncio import sleep
 from functools import partial
 from itertools import zip_longest
+from typing import Any
+from typing import Callable
+from typing import Coroutine
+from typing import Dict
+from typing import List
+from typing import Optional
 from uuid import uuid4
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    List,
-    Optional,
-    Coroutine
-)
 
-from core.interfaces.scraper.ProductScraper import ProductScraper
-from core.interfaces.tasks_manager.TaskScraperManager import TaskScraperManager
+from core.interfaces.scraper import ScraperProduct
+from core.interfaces.tasks_manager import ScraperTaskManager
 from core.settings import SettingsTaskScraperBaseManager
 
-__all__ = [
-    "TaskScraperManagerBase",
-]
+__all__ = ['ScraperTaskManagerBase']
 
 
-class TaskScraperManagerBase(TaskScraperManager):
+class ScraperTaskManagerBase(ScraperTaskManager):
     __slots__ = (
         "__background_task",
         "__futures",
@@ -38,7 +32,7 @@ class TaskScraperManagerBase(TaskScraperManager):
     def __init__(
         self,
         settings: Dict[str, Any],
-        scraper: ProductScraper,
+        scraper: ScraperProduct,
     ) -> None:
         self.__settings = SettingsTaskScraperBaseManager(**settings)
         self.__scraper = scraper
@@ -46,6 +40,10 @@ class TaskScraperManagerBase(TaskScraperManager):
         self.__futures: Optional[Dict[str, (str, Future)]] = {}
         self.__tasks: Optional[Dict[str, Task]] = {}
         self.__background_task: Optional[Task] = None
+
+    @property
+    def type(self) -> str:
+        return 'base'
 
     def set_callable_command(
         self,

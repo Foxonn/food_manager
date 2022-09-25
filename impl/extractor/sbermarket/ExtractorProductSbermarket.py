@@ -1,7 +1,5 @@
-from typing import (
-    Any,
-    Dict
-)
+from typing import Any
+from typing import Dict
 
 from bs4 import BeautifulSoup
 
@@ -9,9 +7,7 @@ from core.entities.FoodProduct import FoodProduct
 from core.interfaces.extractor.ExtractorProduct import ExtractorProduct
 from core.settings import SettingsSbermarket
 
-__all__ = [
-    "ExtractorProductSbermarket",
-]
+__all__ = ['ExtractorProductSbermarket']
 
 
 class ExtractorProductSbermarket(ExtractorProduct):
@@ -41,16 +37,18 @@ class ExtractorProductSbermarket(ExtractorProduct):
         weight, unit_measurement = soup.select_one(
             self.__selector_weight
         ).text.strip().split()
-        nutrition = dict(zip(
-            [
-                data.text.strip()
-                for data in soup.select(self.__selector_nutrition_name)
-             ],
-            [
-                float(data.text.strip().split()[0])
-                for data in soup.select(self.__selector_nutrition_value)
-            ]
-        ))
+        nutrition = dict(
+            zip(
+                [
+                    data.text.strip()
+                    for data in soup.select(self.__selector_nutrition_name)
+                ],
+                [
+                    float(data.text.strip().split()[0])
+                    for data in soup.select(self.__selector_nutrition_value)
+                ]
+            )
+        )
 
         return FoodProduct(
             name=name,

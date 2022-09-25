@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 
-__all__ = [
-    "FoodProduct",
-]
+__all__ = ['FoodProduct']
 
 
 class FoodProduct(BaseModel):
