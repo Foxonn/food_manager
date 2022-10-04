@@ -1,6 +1,5 @@
 from datetime import datetime
-
-from pydantic.types import UUID
+from uuid import UUID
 
 from .FoodProductModel import FoodProductModel
 
