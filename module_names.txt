@@ -1,4 +1,0 @@
-plugins.requests.pyppeteer
-plugins.scrapers.sbermarket
-plugins.tasks_scraper_managers.base_manager
-plugins.extractors.sbermarket

@@ -1,1 +1,0 @@
-from impl.extractor.sbermarket.default.ExtractorProductSbermarket import ExtractorProductSbermarket

@@ -1,5 +1,0 @@
-selector_name: "h1[itemprop=name]"
-selector_price: "meta[itemprop=price]"
-selector_weight: "div[itemprop='offers'] p"
-selector_nutrition_name: ".nutrition .product-properties .product-property__name"
-selector_nutrition_value: ".nutrition .product-properties .product-property__value"
