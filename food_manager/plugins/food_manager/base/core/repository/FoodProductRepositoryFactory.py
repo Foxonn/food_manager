@@ -1,4 +1,5 @@
 from typing import Any
+from typing import Mapping
 
 from .FoodProductRepository import FoodProductRepository
 
@@ -12,5 +13,8 @@ class FoodProductRepositoryFactory:
     def type(self) -> str:
         raise NotImplementedError
 
-    async def get_instance(self, settings: Any) -> FoodProductRepository:
+    async def get_instance(
+        self,
+        settings: Mapping[str, Any]
+    ) -> FoodProductRepository:
         raise NotImplementedError

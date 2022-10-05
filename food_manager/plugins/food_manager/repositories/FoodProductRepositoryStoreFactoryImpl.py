@@ -3,7 +3,7 @@ from typing import Any
 from ..base.core.repository import FoodProductRepositoryFactory
 from ..base.core.repository import FoodProductRepositoryStoreFactory
 
-__all__ = ['FoodProductRepositoryStoreFactory']
+__all__ = ['FoodProductRepositoryStoreFactoryImpl']
 
 
 class StoreFactoriesRepositories(dict):
@@ -34,7 +34,9 @@ class FoodProductRepositoryStoreFactoryImpl(
         _store_factories_repositories[repository] = repository
 
     async def get_instance(
-        self, type: str, settings: Any
+        self,
+        type: str,
+        settings: Any
     ) -> FoodProductRepositoryFactory:
         try:
             return _store_factories_repositories[type]

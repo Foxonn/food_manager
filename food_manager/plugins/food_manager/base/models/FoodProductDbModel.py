@@ -8,5 +8,5 @@ __all__ = ['FoodProductDbModel']
 
 class FoodProductDbModel(FoodProductModel):
     id: UUID
-    update_at: datetime
-    create_at: datetime
+    updated_at: datetime
+    created_at: datetime
