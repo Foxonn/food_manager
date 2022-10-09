@@ -1,0 +1,7 @@
+### Plugins
+
+#### repositories
+* food_manager/plugins/food_manager/repositories/plugins/tiny_db
+
+#### logger
+* food_manager/plugins/food_manager/logger/plugins/aiologging

@@ -1,0 +1,8 @@
+# logger
+food_manager.plugins.logger.plugins.aiologging
+# repositories
+food_manager.plugins.repositories.plugins.tiny_db
+# functions
+food_manager.plugins.functions.plugins.commands.base
+# queries
+food_manager.plugins.functions.plugins.queries.base

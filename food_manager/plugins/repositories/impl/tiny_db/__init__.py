@@ -1,0 +1,1 @@
+from .FoodProductRepositoryTinyDB import FoodProductRepositoryTinyDB

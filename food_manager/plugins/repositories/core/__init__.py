@@ -1,0 +1,2 @@
+from .FoodProductRepositoryFactory import FoodProductRepositoryFactory
+from .FoodProductRepository import FoodProductRepository

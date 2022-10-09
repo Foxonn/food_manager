@@ -1,5 +1,5 @@
-from food_manager.plugins.food_manager.base.models import FoodProductModel
-from food_manager.plugins.food_manager.base.models import MacronutrientsModel
+from food_manager.plugins.base.models import FoodProductModel
+from food_manager.plugins.base.models import MacronutrientsModel
 
 
 class TestFoodProductModel:
