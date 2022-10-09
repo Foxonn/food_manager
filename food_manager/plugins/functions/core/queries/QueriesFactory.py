@@ -1,3 +1,4 @@
+from typing import Collection
 from uuid import UUID
 
 from ....base.models import FoodProductDbModel
@@ -12,4 +13,7 @@ class QueriesFactory:
         self,
         id: UUID
     ) -> FoodProductDbModel:
+        raise NotImplementedError
+
+    async def get_all_products(self) -> Collection[FoodProductDbModel]:
         raise NotImplementedError

@@ -1,3 +1,4 @@
 from .QueriesFactory import QueriesFactory
 from .FactoryQueriesFactory import FactoryQueriesFactory
 from .GetFoodProductByIDQuery import GetFoodProductByIDQuery
+from .GetAllFoodProductsQuery import GetAllFoodProductsQuery

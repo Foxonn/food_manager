@@ -1,7 +1,9 @@
+from typing import Collection
 from uuid import UUID
 
 from aiologger import Logger
 
+from .GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
 from .GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
 from ....core.queries import QueriesFactory
 from .....base.models import FoodProductDbModel
@@ -36,3 +38,9 @@ class BaseQueriesFactory(
         )(
             id=id
         )
+
+    async def get_all_products(self) -> Collection[FoodProductDbModel]:
+        return await GetAllFoodProductsQueryImpl(
+            logger=self.__logger,
+            repository=self.__repository,
+        )()

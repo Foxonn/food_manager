@@ -1,3 +1,5 @@
+import os
+
 from galo_ioc import add_factory
 from galo_ioc import get_factory
 from tinydb import TinyDB
@@ -15,7 +17,7 @@ async def load() -> None:
         factory_type=LoggerFactory
     )
     logger = await factory_logger()
-    db = TinyDB(r'D:\Development\food_manager\db.json')
+    db = TinyDB(os.getenv('TINY_DB_PATH'))
 
     class FoodProductRepositoryFactoryTinyDB(
         FoodProductRepositoryFactory
