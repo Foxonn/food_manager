@@ -12,12 +12,17 @@ from food_manager.plugins.functions.core.queries import FactoryQueriesFactory
 from food_manager.utils.initialization_plugins import initialization_plugins
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(
+    autouse=True,
+    scope="session"
+)
 def init_env() -> None:
     load_dotenv(r'D:\Development\food_manager\.env')
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(
+    scope="session"
+)
 def event_loop():
     policy = asyncio.get_event_loop_policy()
     loop = policy.new_event_loop()
@@ -31,7 +36,9 @@ class TestGetFoodProductByIDQuery:
             await initialization_plugins(
                 module_names_path=os.getenv('MODULE_NAMES_PATH')
             )
-            factory = get_factory(factory_type=FactoryQueriesFactory)
+            factory = get_factory(
+                factory_type=FactoryQueriesFactory
+            )
             cmd = await factory()
 
         await cmd.get_food_product_by_id_query(
@@ -43,7 +50,9 @@ class TestGetFoodProductByIDQuery:
             await initialization_plugins(
                 module_names_path=os.getenv('MODULE_NAMES_PATH')
             )
-            factory = get_factory(factory_type=FactoryQueriesFactory)
+            factory = get_factory(
+                factory_type=FactoryQueriesFactory
+            )
             cmd = await factory()
 
         with pytest.raises(NotFoundException):
