@@ -3,6 +3,7 @@ import os
 
 import pytest
 from dotenv import load_dotenv
+from faker import Faker
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
@@ -28,8 +29,18 @@ def event_loop():
     loop.close()
 
 
-class TestCreateProductCommand:
-    async def test_call(self) -> None:
+@pytest.fixture(
+    scope='session'
+)
+def fake() -> Faker:
+    return Faker()
+
+
+class TestCreateFoodProductCommand:
+    async def test_call(
+        self,
+        fake: Faker,
+    ) -> None:
         with FactoryContainerImpl():
             await initialization_plugins(
                 module_names_path=os.getenv('MODULE_NAMES_PATH')
@@ -40,11 +51,11 @@ class TestCreateProductCommand:
             cmd = await factory()
 
         await cmd.create_product_command(
-            name='Смесь овощная Bonduelle Средиземноморская для жарки замороженная',
-            price=39699,
+            name=fake.name(),
+            price=fake.unique.random_int(),
             unit_measurement='г',
-            units=700,
-            proteins=18,
-            fats=37,
-            carbohydrates=83,
+            units=fake.unique.random_int(),
+            proteins=fake.unique.random_int(),
+            fats=fake.unique.random_int(),
+            carbohydrates=fake.unique.random_int(),
         )

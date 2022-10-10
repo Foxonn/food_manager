@@ -1,3 +1,3 @@
-from .CommandsFactory import CommandsFactory
-from .FactoryCommandsFactory import FactoryCommandsFactory
-from .CreateProductCommand import CreateProductCommand
+from .factory import *
+from .CreateFoodProductCommand import CreateFoodProductCommand
+from .DeleteFoodProductCommand import DeleteFoodProductCommand

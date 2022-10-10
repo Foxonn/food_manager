@@ -1,8 +1,12 @@
+from uuid import UUID
+
 from aiologger import Logger
 
-from food_manager.plugins.functions.core.commands import CommandsFactory
-from food_manager.plugins.repositories.core import FoodProductRepository
-from .CreateProductCommandImpl import CreateProductCommandImpl
+from .CreateFoodProductCommandImpl import CreateFoodProductCommandImpl
+from .DeleteFoodProductCommandImpl import DeleteFoodProductCommandImpl
+from ....core.commands import CommandsFactory
+from .....base.models import FoodProductDbModel
+from .....repositories.core import FoodProductRepository
 
 __all__ = ['BaseCommandsFactory']
 
@@ -32,9 +36,9 @@ class BaseCommandsFactory(
         proteins: int,
         fats: int,
         carbohydrates: int,
-    ) -> None:
-        await CreateProductCommandImpl(
-            repository=self.__repository
+    ) -> FoodProductDbModel:
+        return await CreateFoodProductCommandImpl(
+            repository=self.__repository,
         )(
             name=name,
             price=price,
@@ -43,4 +47,14 @@ class BaseCommandsFactory(
             proteins=proteins,
             fats=fats,
             carbohydrates=carbohydrates,
+        )
+
+    async def delete_product_command(
+        self,
+        id: UUID,
+    ) -> None:
+        await DeleteFoodProductCommandImpl(
+            repository=self.__repository,
+        )(
+            id=id,
         )

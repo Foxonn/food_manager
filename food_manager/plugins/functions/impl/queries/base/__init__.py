@@ -1,2 +1,2 @@
-from .BaseQueriesFactory import BaseQueriesFactory
+from.factory import *
 from .GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl

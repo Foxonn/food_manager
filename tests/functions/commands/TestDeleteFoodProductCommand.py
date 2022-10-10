@@ -1,6 +1,5 @@
 import asyncio
 import os
-from uuid import UUID
 
 import pytest
 from dotenv import load_dotenv
@@ -23,7 +22,7 @@ def init_env() -> None:
 
 
 @pytest.fixture(
-    scope='session'
+    scope="session"
 )
 def event_loop():
     policy = asyncio.get_event_loop_policy()
@@ -33,16 +32,16 @@ def event_loop():
 
 
 @pytest.fixture(
-    scope='session'
+    scope="session"
 )
 def fake() -> Faker:
     return Faker()
 
 
-class TestGetFoodProductByIDQuery:
+class TestDeleteFoodProductCommand:
     async def test_call(
         self,
-        fake: fake,
+        fake: Faker,
     ) -> None:
         with FactoryContainerImpl():
             await initialization_plugins(
@@ -52,6 +51,7 @@ class TestGetFoodProductByIDQuery:
                 factory_type=FactoryCommandsFactory
             )
             cmd = await factory()
+
             factory = get_factory(
                 factory_type=FactoryQueriesFactory
             )
@@ -66,22 +66,11 @@ class TestGetFoodProductByIDQuery:
             fats=fake.unique.random_int(),
             carbohydrates=fake.unique.random_int(),
         )
-        record = await query.get_food_product_by_id_query(
+        await cmd.delete_product_command(
             id=product.id
         )
-        assert record
-
-    async def test_exception_record_not_found(self) -> None:
-        with FactoryContainerImpl():
-            await initialization_plugins(
-                module_names_path=os.getenv('MODULE_NAMES_PATH')
-            )
-            factory = get_factory(
-                factory_type=FactoryQueriesFactory
-            )
-            cmd = await factory()
 
         with pytest.raises(NotFoundException):
-            await cmd.get_food_product_by_id_query(
-                id=UUID('6118182e-4faf-4690-8746-c3cb492df1cc')
+            await query.get_food_product_by_id_query(
+                id=product.id
             )

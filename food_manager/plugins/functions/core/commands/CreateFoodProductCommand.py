@@ -1,7 +1,9 @@
-__all__ = ['CreateProductCommand']
+from ....base.models import FoodProductDbModel
+
+__all__ = ['CreateFoodProductCommand']
 
 
-class CreateProductCommand:
+class CreateFoodProductCommand:
     __slots__ = ()
 
     async def __call__(
@@ -13,5 +15,5 @@ class CreateProductCommand:
         proteins: int,
         fats: int,
         carbohydrates: int,
-    ) -> None:
+    ) -> FoodProductDbModel:
         raise NotImplementedError

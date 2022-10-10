@@ -1,16 +1,16 @@
 from datetime import datetime
 from uuid import uuid4
 
-from ....core.commands import CreateProductCommand
+from ....core.commands import CreateFoodProductCommand
 from .....base.models import FoodProductDbModel
 from .....base.models import MacronutrientsModel
 from .....repositories.core import FoodProductRepository
 
-__all__ = ['CreateProductCommandImpl']
+__all__ = ['CreateFoodProductCommandImpl']
 
 
-class CreateProductCommandImpl(
-    CreateProductCommand
+class CreateFoodProductCommandImpl(
+    CreateFoodProductCommand
 ):
     __slots__ = (
         '__repository',
@@ -31,7 +31,7 @@ class CreateProductCommandImpl(
         proteins: int,
         fats: int,
         carbohydrates: int,
-    ) -> None:
+    ) -> FoodProductDbModel:
         time = datetime.now()
         product = FoodProductDbModel(
             id=uuid4(),
@@ -50,3 +50,4 @@ class CreateProductCommandImpl(
         await self.__repository.add_product(
             product=product
         )
+        return product

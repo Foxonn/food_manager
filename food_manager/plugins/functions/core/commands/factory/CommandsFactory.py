@@ -1,3 +1,7 @@
+from uuid import UUID
+
+from .....base.models import FoodProductDbModel
+
 __all__ = ['CommandsFactory']
 
 
@@ -13,5 +17,11 @@ class CommandsFactory:
         proteins: int,
         fats: int,
         carbohydrates: int,
+    ) -> FoodProductDbModel:
+        raise NotImplementedError
+
+    async def delete_product_command(
+        self,
+        id: UUID,
     ) -> None:
         raise NotImplementedError

@@ -6,10 +6,11 @@ from aiologger import Logger
 from tinydb import Query
 from tinydb.table import Table
 
-from food_manager.plugins.base.models import FoodProductDbModel
-from food_manager.plugins.base.models import FoodProductModel
-from food_manager.plugins.base.models.exceptions import NotFoundException
-from food_manager.plugins.repositories.core import FoodProductRepository
+from ...core import FoodProductRepository
+from ....base.exceptions import NotFoundException
+from ....base.exceptions import RecordAlreadyExist
+from ....base.models import FoodProductDbModel
+from ....base.models import FoodProductModel
 
 __all__ = ['FoodProductRepositoryTinyDB']
 
@@ -17,6 +18,8 @@ __all__ = ['FoodProductRepositoryTinyDB']
 class FoodProductRepositoryTinyDB(
     FoodProductRepository
 ):
+    __food_product = Query()
+
     __slots__ = (
         '__logger',
         '__db_factory',
@@ -32,8 +35,9 @@ class FoodProductRepositoryTinyDB(
         self.__table = table
 
     async def get_product(self, id: UUID) -> FoodProductDbModel:
-        food_product = Query()
-        records = self.__table.search(food_product.id == str(id))
+        records = self.__table.search(
+            self.__food_product.id == str(id)
+        )
 
         if not records:
             raise NotFoundException(id)
@@ -48,6 +52,11 @@ class FoodProductRepositoryTinyDB(
         return records
 
     async def add_product(self, product: FoodProductDbModel) -> None:
+        records = self.__table.search(
+            self.__food_product.name == str(product.name)
+        )
+        if records:
+            raise RecordAlreadyExist()
         self.__table.insert(
             json.loads(
                 product.json(
@@ -57,7 +66,9 @@ class FoodProductRepositoryTinyDB(
         )
 
     async def delete_product(self, id: UUID) -> None:
-        pass
+        self.__table.remove(
+            self.__food_product.id == str(id)
+        )
 
     async def update_product(self, product: FoodProductModel) -> None:
         pass

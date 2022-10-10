@@ -21,7 +21,7 @@ class TestFoodProductModel:
         assert kkal == model.macronutrients.calories / 100
 
     def test_product_2(self) -> None:
-        kkal = 125
+        kkal = 12.5
 
         model = FoodProductModel(
             name='Паэлья «4 Сезона» замороженная',

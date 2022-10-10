@@ -3,11 +3,11 @@ from uuid import UUID
 
 from aiologger import Logger
 
-from .GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
-from .GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
-from ....core.queries import QueriesFactory
-from .....base.models import FoodProductDbModel
-from .....repositories.core import FoodProductRepository
+from food_manager.plugins.functions.impl.queries.base.GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
+from food_manager.plugins.functions.impl.queries.base.GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
+from food_manager.plugins.functions.core.queries import QueriesFactory
+from food_manager.plugins.base.models import FoodProductDbModel
+from food_manager.plugins.repositories.core import FoodProductRepository
 
 __all__ = ['BaseQueriesFactory']
 
