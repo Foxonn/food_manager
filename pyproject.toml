@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "food-manager"
+version = "0.1.0"
+description = ""
+authors = ["anton nenashev <psihonort@gmail.com>"]
+readme = "README.md"
+packages = [{include = "food_manager"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^1.10.2"
+aiologger = "^0.7.0"
+pytest = "^7.1.3"
+galo_ioc = "0.15.0"
+pytest-asyncio = "^0.19.0"
+python-dotenv = "^0.21.0"
+Faker = "^15.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
