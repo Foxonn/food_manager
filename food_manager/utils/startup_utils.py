@@ -24,7 +24,7 @@ def get_module_names_path() -> str:
 def read_module_names(module_names_path: str) -> Sequence[str]:
     return list(
         filter(
-            lambda x: not str(x).startswith('#'),
+            lambda x: x and not str(x).startswith('#'),
             Path(module_names_path).read_text().splitlines()
         )
     )

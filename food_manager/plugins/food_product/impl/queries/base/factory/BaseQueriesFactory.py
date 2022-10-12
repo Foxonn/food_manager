@@ -3,17 +3,17 @@ from uuid import UUID
 
 from aiologger import Logger
 
-from food_manager.plugins.food_product.impl.queries.base.GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
-from food_manager.plugins.food_product.impl.queries.base.GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
-from food_manager.plugins.food_product.base.core.queries import QueriesFactory
-from food_manager.plugins.base.models import FoodProductDbModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ..GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
+from ..GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
+from .....base.core.queries import FoodProductsQueriesFactory
+from .....base.models import FoodProductDbModel
+from ......repositories.food_product.core import FoodProductRepository
 
-__all__ = ['BaseQueriesFactory']
+__all__ = ['BaseFoodProductsQueriesFactory']
 
 
-class BaseQueriesFactory(
-    QueriesFactory
+class BaseFoodProductsQueriesFactory(
+    FoodProductsQueriesFactory
 ):
     __slots__ = (
         '__logger',

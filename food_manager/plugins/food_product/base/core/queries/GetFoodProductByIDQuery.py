@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from food_manager.plugins.base.models import FoodProductDbModel
+from ...models import FoodProductDbModel
 
 __all__ = ['GetFoodProductByIDQuery']
 

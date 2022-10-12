@@ -1,11 +1,11 @@
 from datetime import datetime
 from typing import List
+from uuid import UUID
 from uuid import uuid4
 
 from ....base.core.commands import CreateDishCommand
 from ....base.models import DishDbModel
-from .....food_product.base.models import FoodProductDbModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from .....repositories.dish.core import DishRepository
 
 __all__ = ['CreateDishCommandImpl']
 
@@ -19,22 +19,24 @@ class CreateDishCommandImpl(
 
     def __init__(
         self,
-        repository: FoodProductRepository,
+        repository: DishRepository,
     ) -> None:
         self.__repository = repository
 
     async def __call__(
         self,
-        ingredients: List[FoodProductDbModel]
+        name: str,
+        ingredients_ids: List[UUID]
     ) -> DishDbModel:
         time = datetime.now()
-        product = DishDbModel(
+        dish = DishDbModel(
             id=uuid4(),
-            ingredients=ingredients,
+            name=name,
+            ingredients_ids=ingredients_ids,
             created_at=time,
             updated_at=time,
         )
-        await self.__repository.add_product(
-            product=product
+        await self.__repository.add_dish(
+            dish=dish
         )
-        return product
+        return dish

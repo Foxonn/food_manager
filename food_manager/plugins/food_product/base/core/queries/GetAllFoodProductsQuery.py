@@ -1,6 +1,6 @@
 from typing import Collection
 
-from food_manager.plugins.base.models import FoodProductDbModel
+from ...models import FoodProductDbModel
 
 __all__ = ['GetAllFoodProductsQuery']
 

@@ -3,15 +3,16 @@ from uuid import UUID
 
 from ....models import DishDbModel
 
-__all__ = ['CommandsFactory']
+__all__ = ['DishCommandsFactory']
 
 
-class CommandsFactory:
+class DishCommandsFactory:
     __slots__ = ()
 
     async def create_dish_command(
         self,
-        ingredients: List[DishDbModel]
+        name: str,
+        ingredients_ids: List[UUID],
     ) -> DishDbModel:
         raise NotImplementedError
 

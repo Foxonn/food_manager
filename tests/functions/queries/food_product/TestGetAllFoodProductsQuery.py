@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
-from food_manager.plugins.base.models import FoodProductDbModel
-from food_manager.plugins.food_product.base.core.queries import FactoryQueriesFactory
+from food_manager.plugins.food_product.base.core.queries import FactoryFoodProductsQueriesFactory
+from food_manager.plugins.food_product.base.models import FoodProductDbModel
 from food_manager.utils.initialization_plugins import initialization_plugins
 
 
@@ -36,7 +36,7 @@ class TestGetFoodProductByIDQuery:
                 module_names_path=os.getenv('MODULE_NAMES_PATH')
             )
             factory = get_factory(
-                factory_type=FactoryQueriesFactory
+                factory_type=FactoryFoodProductsQueriesFactory
             )
             cmd = await factory()
 

@@ -7,7 +7,7 @@ from faker import Faker
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
-from food_manager.plugins.food_product.base.core.commands import FactoryCommandsFactory
+from food_manager.plugins.food_product.base.core.commands import FactoryFoodProductCommandsFactory
 from food_manager.utils.initialization_plugins import initialization_plugins
 
 
@@ -46,7 +46,7 @@ class TestCreateFoodProductCommand:
                 module_names_path=os.getenv('MODULE_NAMES_PATH')
             )
             factory = get_factory(
-                factory_type=FactoryCommandsFactory
+                factory_type=FactoryFoodProductCommandsFactory
             )
             cmd = await factory()
 

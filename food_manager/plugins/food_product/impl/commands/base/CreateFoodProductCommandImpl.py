@@ -1,10 +1,10 @@
 from datetime import datetime
 from uuid import uuid4
 
-from food_manager.plugins.food_product.base.core import CreateFoodProductCommand
-from .....base.models import FoodProductDbModel
-from .....base.models import MacronutrientsModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ....base.core.commands import CreateFoodProductCommand
+from ....base.models import FoodProductDbModel
+from ....base.models.MacronutrientsModel import MacronutrientsModel
+from .....repositories.food_product.core import FoodProductRepository
 
 __all__ = ['CreateFoodProductCommandImpl']
 

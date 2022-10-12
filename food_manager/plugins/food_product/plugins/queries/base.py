@@ -1,11 +1,11 @@
 from galo_ioc import add_factory
 from galo_ioc import get_factory
 
-from food_manager.plugins.food_product.base.core import QueriesFactory
-from food_manager.plugins.food_product.base.core import FactoryQueriesFactory
-from ...impl.queries.base import BaseQueriesFactory
+from ...base.core.queries import FactoryFoodProductsQueriesFactory
+from ...base.core.queries import FoodProductsQueriesFactory
+from ...impl.queries.base import BaseFoodProductsQueriesFactory
 from ....logger.core import LoggerFactory
-from food_manager.plugins.repositories.food_product.core import FoodProductRepositoryFactory
+from ....repositories.food_product.core import FoodProductRepositoryFactory
 
 __all__ = ['load']
 
@@ -16,16 +16,18 @@ async def load() -> None:
     logger = await logger_factory()
     repository = await repository_factory()
 
-    class BaseFactoryQueriesFactory(FactoryQueriesFactory):
-        async def __call__(self) -> QueriesFactory:
+    class BaseFactoryFoodProductsQueriesFactory(
+        FactoryFoodProductsQueriesFactory
+    ):
+        async def __call__(self) -> FoodProductsQueriesFactory:
             return base_queries_factory
 
-    base_queries_factory = BaseQueriesFactory(
+    base_queries_factory = BaseFoodProductsQueriesFactory(
         logger=logger,
         repository=repository,
     )
 
     add_factory(
-        factory_type=FactoryQueriesFactory,
-        factory=BaseFactoryQueriesFactory()
+        factory_type=FactoryFoodProductsQueriesFactory,
+        factory=BaseFactoryFoodProductsQueriesFactory()
     )

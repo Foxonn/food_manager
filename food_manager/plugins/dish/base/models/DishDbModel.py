@@ -1,12 +1,10 @@
-from datetime import datetime
+from typing import List
 from uuid import UUID
 
-from .DishModel import DishModel
+from .DishBaseModel import DishBaseModel
 
 __all__ = ['DishDbModel']
 
 
-class DishDbModel(DishModel):
-    id: UUID
-    updated_at: datetime
-    created_at: datetime
+class DishDbModel(DishBaseModel):
+    ingredients_ids: List[UUID]

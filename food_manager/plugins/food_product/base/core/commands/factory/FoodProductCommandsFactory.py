@@ -1,11 +1,11 @@
 from uuid import UUID
 
-from food_manager.plugins.base.models import FoodProductDbModel
+from ....models import FoodProductDbModel
 
-__all__ = ['CommandsFactory']
+__all__ = ['FoodProductCommandsFactory']
 
 
-class CommandsFactory:
+class FoodProductCommandsFactory:
     __slots__ = ()
 
     async def create_product_command(

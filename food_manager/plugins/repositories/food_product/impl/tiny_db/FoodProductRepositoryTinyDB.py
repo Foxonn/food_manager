@@ -7,10 +7,9 @@ from tinydb import Query
 from tinydb.table import Table
 
 from ...core import FoodProductRepository
-from food_manager.plugins.base.exceptions import NotFoundException
-from food_manager.plugins.base.exceptions import RecordAlreadyExist
-from ....base.models import FoodProductDbModel
-from ....base.models import FoodProductModel
+from .....base.exceptions import NotFoundException
+from .....base.exceptions import RecordAlreadyExist
+from .....food_product.base.models import FoodProductDbModel
 
 __all__ = ['FoodProductRepositoryTinyDB']
 
@@ -70,5 +69,5 @@ class FoodProductRepositoryTinyDB(
             self.__food_product.id == str(id)
         )
 
-    async def update_product(self, product: FoodProductModel) -> None:
+    async def update_product(self, product: FoodProductDbModel) -> None:
         pass

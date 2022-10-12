@@ -1,9 +1,9 @@
 from logging import Logger
 from uuid import UUID
 
-from food_manager.plugins.food_product.base.core import GetFoodProductByIDQuery
-from .....base.models import FoodProductDbModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ....base.core.queries import GetFoodProductByIDQuery
+from ....base.models import FoodProductDbModel
+from .....repositories.food_product.core import FoodProductRepository
 
 __all__ = ['GetFoodProductByIDQueryImpl']
 

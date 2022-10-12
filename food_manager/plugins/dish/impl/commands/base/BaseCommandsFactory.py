@@ -1,18 +1,21 @@
+from typing import List
 from uuid import UUID
 
 from aiologger import Logger
 
 from .CreateDishCommandImpl import CreateDishCommandImpl
 from .DeleteFoodProductCommandImpl import DeleteDishCommandImpl
-from ....base.core.commands import CommandsFactory
+from ....base.core.commands import DishCommandsFactory
+from ....base.models import DishBaseModel
 from ....base.models import DishDbModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from .....food_product.base.models import FoodProductDbModel
+from .....repositories.dish.core import DishRepository
 
-__all__ = ['BaseCommandsFactory']
+__all__ = ['BaseDishCommandsFactory']
 
 
-class BaseCommandsFactory(
-    CommandsFactory
+class BaseDishCommandsFactory(
+    DishCommandsFactory
 ):
     __slots__ = (
         '__logger',
@@ -22,7 +25,7 @@ class BaseCommandsFactory(
     def __init__(
         self,
         logger: Logger,
-        repository: FoodProductRepository
+        repository: DishRepository
     ) -> None:
         self.__logger = logger
         self.__repository = repository
@@ -30,26 +33,16 @@ class BaseCommandsFactory(
     async def create_dish_command(
         self,
         name: str,
-        price: int,
-        unit_measurement: str,
-        units: int,
-        proteins: int,
-        fats: int,
-        carbohydrates: int,
+        ingredients_ids: List[UUID],
     ) -> DishDbModel:
         return await CreateDishCommandImpl(
             repository=self.__repository,
         )(
             name=name,
-            price=price,
-            unit_measurement=unit_measurement,
-            units=units,
-            proteins=proteins,
-            fats=fats,
-            carbohydrates=carbohydrates,
+            ingredients_ids=ingredients_ids,
         )
 
-    async def delete_product_command(
+    async def delete_dish_command(
         self,
         id: UUID,
     ) -> None:

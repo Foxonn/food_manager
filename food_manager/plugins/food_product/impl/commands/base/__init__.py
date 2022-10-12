@@ -1,1 +1,1 @@
-from .BaseCommandsFactory import BaseCommandsFactory
+from .BaseCommandsFactory import BaseFoodProductCommandsFactory

@@ -1,7 +1,7 @@
 from uuid import UUID
 
-from food_manager.plugins.dish.base.core import DeleteDishCommand
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ....base.core.commands import DeleteDishCommand
+from .....repositories.dish.core import DishRepository
 
 __all__ = ['DeleteDishCommandImpl']
 
@@ -15,7 +15,7 @@ class DeleteDishCommandImpl(
 
     def __init__(
         self,
-        repository: FoodProductRepository,
+        repository: DishRepository,
     ) -> None:
         self.__repository = repository
 
@@ -23,6 +23,6 @@ class DeleteDishCommandImpl(
         self,
         id: UUID
     ) -> None:
-        await self.__repository.delete_product(
+        await self.__repository.delete_dish(
             id=id
         )

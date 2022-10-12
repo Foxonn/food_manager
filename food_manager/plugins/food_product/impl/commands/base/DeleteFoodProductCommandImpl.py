@@ -1,7 +1,7 @@
 from uuid import UUID
 
-from food_manager.plugins.food_product.base.core import DeleteFoodProductCommand
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ....base.core.commands import DeleteFoodProductCommand
+from .....repositories.food_product.core import FoodProductRepository
 
 __all__ = ['DeleteFoodProductCommandImpl']
 

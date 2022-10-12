@@ -3,17 +3,17 @@ from uuid import UUID
 
 from aiologger import Logger
 
-from food_manager.plugins.food_product.impl.queries.base.GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
-from food_manager.plugins.food_product.impl.queries.base.GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
-from food_manager.plugins.food_product.base.core.queries import QueriesFactory
-from food_manager.plugins.base.models import FoodProductDbModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ..GetDishByIDQueryImpl import GetDishByIDQueryImpl
+from ..GetAllDishesQueryImpl import GetAllDishesQueryImpl
+from .....base.core.queries import DishQueriesFactory
+from .....base.models import DishModel
+from ......repositories.dish.core import DishRepository
 
-__all__ = ['BaseQueriesFactory']
+__all__ = ['BaseDishQueriesFactory']
 
 
-class BaseQueriesFactory(
-    QueriesFactory
+class BaseDishQueriesFactory(
+    DishQueriesFactory
 ):
     __slots__ = (
         '__logger',
@@ -23,24 +23,24 @@ class BaseQueriesFactory(
     def __init__(
         self,
         logger: Logger,
-        repository: FoodProductRepository
+        repository: DishRepository
     ) -> None:
         self.__logger = logger
         self.__repository = repository
 
-    async def get_food_product_by_id_query(
+    async def get_dish_by_id_query(
         self,
         id: UUID
-    ) -> FoodProductDbModel:
-        return await GetFoodProductByIDQueryImpl(
+    ) -> DishModel:
+        return await GetDishByIDQueryImpl(
             logger=self.__logger,
             repository=self.__repository,
         )(
             id=id
         )
 
-    async def get_all_products(self) -> Collection[FoodProductDbModel]:
-        return await GetAllFoodProductsQueryImpl(
+    async def get_all_dishes(self) -> Collection[DishModel]:
+        return await GetAllDishesQueryImpl(
             logger=self.__logger,
             repository=self.__repository,
         )()

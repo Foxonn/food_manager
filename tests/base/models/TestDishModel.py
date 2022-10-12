@@ -1,6 +1,7 @@
-from food_manager.plugins.base.models import DishModel
-from food_manager.plugins.base.models import FoodProductModel
-from food_manager.plugins.base.models import MacronutrientsModel
+from food_manager.plugins.dish.base.models.DishModel import DishModel
+from food_manager.plugins.food_product.base.models import FoodProductModel
+from food_manager.plugins.food_product.base.models.MacronutrientsModel import \
+    MacronutrientsModel
 
 
 class TestDishModel:
@@ -30,26 +31,35 @@ class TestDishModel:
         )
 
         dish = DishModel(
+            name='Блюдо',
             ingredients=[
                 food_product_1,
                 food_product_2
             ]
         )
 
-        assert dish.total_sum == sum([
-            food_product_1.price,
-            food_product_2.price,
-        ])
-        assert dish.total_carbohydrates == sum([
-            food_product_1.macronutrients.carbohydrates,
-            food_product_2.macronutrients.carbohydrates,
-        ])
-        assert dish.total_fats == sum([
-            food_product_1.macronutrients.fats,
-            food_product_2.macronutrients.fats,
-        ])
-        assert dish.total_proteins == sum([
-            food_product_1.macronutrients.proteins,
-            food_product_2.macronutrients.proteins,
-        ])
+        assert dish.total_sum == sum(
+            [
+                food_product_1.price,
+                food_product_2.price,
+            ]
+        )
+        assert dish.total_carbohydrates == sum(
+            [
+                food_product_1.macronutrients.carbohydrates,
+                food_product_2.macronutrients.carbohydrates,
+            ]
+        )
+        assert dish.total_fats == sum(
+            [
+                food_product_1.macronutrients.fats,
+                food_product_2.macronutrients.fats,
+            ]
+        )
+        assert dish.total_proteins == sum(
+            [
+                food_product_1.macronutrients.proteins,
+                food_product_2.macronutrients.proteins,
+            ]
+        )
         assert dish.total_calories is not None

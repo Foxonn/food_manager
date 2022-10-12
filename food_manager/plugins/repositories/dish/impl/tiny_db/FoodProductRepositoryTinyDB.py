@@ -6,7 +6,9 @@ from aiologger import Logger
 from tinydb import Query
 from tinydb.table import Table
 
+from food_manager.plugins.dish.base.models import DishBaseModel
 from food_manager.plugins.dish.base.models import DishDbModel
+from food_manager.plugins.dish.base.models import DishModel
 from ...core import DishRepository
 from food_manager.plugins.base.exceptions import NotFoundException
 from food_manager.plugins.base.exceptions import RecordAlreadyExist
@@ -34,7 +36,7 @@ class DishRepositoryTinyDB(
         self.__logger = logger
         self.__table = table
 
-    async def get_dish(self, id: UUID) -> DishDbModel:
+    async def get_dish(self, id: UUID) -> DishModel:
         records = self.__table.search(
             self.__dish.id == str(id)
         )
@@ -42,9 +44,9 @@ class DishRepositoryTinyDB(
         if not records:
             raise NotFoundException(id)
 
-        return DishDbModel(**records[0])
+        return DishModel(**records[0])
 
-    async def get_all_dishes(self) -> List[DishDbModel]:
+    async def get_all_dishes(self) -> List[DishModel]:
         records = [
             DishDbModel(**record)
             for record in self.__table.all()
@@ -57,6 +59,7 @@ class DishRepositoryTinyDB(
         )
         if records:
             raise RecordAlreadyExist()
+
         self.__table.insert(
             json.loads(
                 dish.json(
@@ -70,5 +73,5 @@ class DishRepositoryTinyDB(
             self.__dish.id == str(id)
         )
 
-    async def update_dish(self, dish: DishDbModel) -> None:
+    async def update_dish(self, dish: DishModel) -> None:
         pass

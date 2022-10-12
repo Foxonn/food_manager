@@ -1,1 +1,1 @@
-from .BaseQueriesFactory import BaseQueriesFactory
+from .BaseQueriesFactory import BaseFoodProductsQueriesFactory

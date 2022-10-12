@@ -4,15 +4,15 @@ from aiologger import Logger
 
 from .CreateFoodProductCommandImpl import CreateFoodProductCommandImpl
 from .DeleteFoodProductCommandImpl import DeleteFoodProductCommandImpl
-from food_manager.plugins.food_product.base.core import CommandsFactory
-from .....base.models import FoodProductDbModel
-from food_manager.plugins.repositories.food_product.core import FoodProductRepository
+from ....base.core.commands import FoodProductCommandsFactory
+from ....base.models import FoodProductDbModel
+from .....repositories.food_product.core import FoodProductRepository
 
-__all__ = ['BaseCommandsFactory']
+__all__ = ['BaseFoodProductCommandsFactory']
 
 
-class BaseCommandsFactory(
-    CommandsFactory
+class BaseFoodProductCommandsFactory(
+    FoodProductCommandsFactory
 ):
     __slots__ = (
         '__logger',

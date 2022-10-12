@@ -1,11 +1,11 @@
 from typing import Collection
 
-from food_manager.plugins.base.models import DishDbModel
+from ...models import DishDbModel
 
-__all__ = ['GetAllFoodProductsQuery']
+__all__ = ['GetAllDishesQuery']
 
 
-class GetAllFoodProductsQuery:
+class GetAllDishesQuery:
     __slots__ = ()
 
     async def __call__(self) -> Collection[DishDbModel]:

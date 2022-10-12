@@ -7,7 +7,12 @@ from faker import Faker
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
-from food_manager.plugins.food_product.base.core.commands import FactoryCommandsFactory
+from food_manager.plugins.dish.base.core.commands import FactoryDishCommandsFactory
+from food_manager.plugins.food_product.base.core.commands import \
+    FactoryFoodProductCommandsFactory
+from food_manager.plugins.food_product.base.models import FoodProductModel
+from food_manager.plugins.food_product.base.models.MacronutrientsModel import \
+    MacronutrientsModel
 from food_manager.utils.initialization_plugins import initialization_plugins
 
 
@@ -46,16 +51,33 @@ class TestCreateDishCommand:
                 module_names_path=os.getenv('MODULE_NAMES_PATH')
             )
             factory = get_factory(
-                factory_type=FactoryCommandsFactory
+                factory_type=FactoryDishCommandsFactory
             )
-            cmd = await factory()
+            dish_cmd = await factory()
 
-        product = await cmd.create_product_command(
-            name=fake.name(),
-            price=fake.unique.random_int(),
-            unit_measurement='г',
-            units=fake.unique.random_int(),
-            proteins=fake.unique.random_int(),
-            fats=fake.unique.random_int(),
-            carbohydrates=fake.unique.random_int(),
+            factory = get_factory(
+                factory_type=FactoryFoodProductCommandsFactory
+            )
+            food_product_cmd = await factory()
+
+        food_products = []
+        for i in range(2):
+            prod = await food_product_cmd.create_product_command(
+                name=fake.name(),
+                price=fake.unique.random_int(),
+                unit_measurement='г',
+                units=fake.unique.random_int(),
+                proteins=fake.unique.random_int(),
+                fats=fake.unique.random_int(),
+                carbohydrates=fake.unique.random_int(),
+            )
+            food_products.append(prod)
+
+        dish = await dish_cmd.create_dish_command(
+            name='mock_dish',
+            ingredients=food_products
         )
+
+        print('\n' + '*'*30)
+        print(*[dish], sep='\n\r')
+        print('*'*30 + '\n')

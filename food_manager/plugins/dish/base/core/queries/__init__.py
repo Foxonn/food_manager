@@ -1,3 +1,3 @@
+from .GetAllDishesQuery import GetAllDishesQuery
+from .GetDishByIDQuery import GetDishByIDQuery
 from .factory import *
-from .GetFoodProductByIDQuery import GetFoodProductByIDQuery
-from .GetAllFoodProductsQuery import GetAllFoodProductsQuery

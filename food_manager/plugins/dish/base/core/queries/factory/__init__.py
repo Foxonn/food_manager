@@ -1,2 +1,2 @@
-from .FactoryQueriesFactory import FactoryQueriesFactory
-from .QueriesFactory import QueriesFactory
+from .FactoryDishQueriesFactory import FactoryDishQueriesFactory
+from .DishQueriesFactory import DishQueriesFactory

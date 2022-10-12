@@ -1,2 +1,4 @@
-from.factory import *
+from .GetAllFoodProductsQueryImpl import GetAllFoodProductsQueryImpl
 from .GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
+from .GetFoodProductByIDQueryImpl import GetFoodProductByIDQueryImpl
+from .factory import *
