@@ -6,7 +6,7 @@ class TestFoodProductModel:
     def test_product_1(self) -> None:
         kkal = 34.5
 
-        model = FoodProductModel(
+        food_product = FoodProductModel(
             name='Молоко Parmalat ультрапастеризованное 0.5%',
             price=980,
             units=1000,
@@ -18,12 +18,12 @@ class TestFoodProductModel:
             )
         )
 
-        assert kkal == model.macronutrients.calories / 100
+        assert kkal == food_product.macronutrients.calories / 100
 
     def test_product_2(self) -> None:
         kkal = 12.5
 
-        model = FoodProductModel(
+        food_product = FoodProductModel(
             name='Паэлья «4 Сезона» замороженная',
             price=52299,
             units=600,
@@ -35,4 +35,5 @@ class TestFoodProductModel:
             )
         )
 
-        assert kkal == model.macronutrients.calories / 100
+        assert kkal == food_product.macronutrients.calories / 100
+
