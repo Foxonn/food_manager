@@ -1,7 +1,6 @@
-from food_manager.plugins.dish.base.models.DishModel import DishModel
+from food_manager.plugins.dish.base.models import DishModel
 from food_manager.plugins.food_product.base.models import FoodProductModel
-from food_manager.plugins.food_product.base.models.MacronutrientsModel import \
-    MacronutrientsModel
+from food_manager.plugins.food_product.base.models.MacronutrientsModel import MacronutrientsModel
 
 
 class TestDishModel:

@@ -1,10 +1,11 @@
-from typing import List
-from uuid import UUID
-
 from .DishBaseModel import DishBaseModel
+from .DishPreviewModel import DishPreviewModel
 
 __all__ = ['DishDbModel']
 
 
-class DishDbModel(DishBaseModel):
-    ingredients_ids: List[UUID]
+class DishDbModel(
+    DishBaseModel,
+    DishPreviewModel
+):
+    pass

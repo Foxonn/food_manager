@@ -6,13 +6,11 @@ from aiologger import Logger
 from tinydb import Query
 from tinydb.table import Table
 
-from food_manager.plugins.dish.base.models import DishBaseModel
+from food_manager.plugins.base.exceptions import NotFoundException
+from food_manager.plugins.base.exceptions import RecordAlreadyExist
 from food_manager.plugins.dish.base.models import DishDbModel
 from food_manager.plugins.dish.base.models import DishModel
 from ...core import DishRepository
-from food_manager.plugins.base.exceptions import NotFoundException
-from food_manager.plugins.base.exceptions import RecordAlreadyExist
-
 
 __all__ = ['DishRepositoryTinyDB']
 
@@ -25,7 +23,6 @@ class DishRepositoryTinyDB(
     __slots__ = (
         '__logger',
         '__table',
-        '__db_factory',
     )
 
     def __init__(
@@ -47,11 +44,7 @@ class DishRepositoryTinyDB(
         return DishModel(**records[0])
 
     async def get_all_dishes(self) -> List[DishModel]:
-        records = [
-            DishDbModel(**record)
-            for record in self.__table.all()
-        ]
-        return records
+        raise NotImplementedError
 
     async def add_dish(self, dish: DishDbModel) -> None:
         records = self.__table.search(
@@ -62,9 +55,7 @@ class DishRepositoryTinyDB(
 
         self.__table.insert(
             json.loads(
-                dish.json(
-                    models_as_dict=True
-                )
+                dish.json(models_as_dict=True)
             )
         )
 

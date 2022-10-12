@@ -1,27 +1,16 @@
 import asyncio
 import os
+from typing import List
+from uuid import UUID
 
 import pytest
-from dotenv import load_dotenv
 from faker import Faker
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
 from food_manager.plugins.dish.base.core.commands import FactoryDishCommandsFactory
-from food_manager.plugins.food_product.base.core.commands import \
-    FactoryFoodProductCommandsFactory
-from food_manager.plugins.food_product.base.models import FoodProductModel
-from food_manager.plugins.food_product.base.models.MacronutrientsModel import \
-    MacronutrientsModel
+from food_manager.plugins.food_product.base.core.commands import FactoryFoodProductCommandsFactory
 from food_manager.utils.initialization_plugins import initialization_plugins
-
-
-@pytest.fixture(
-    autouse=True,
-    scope="session"
-)
-def init_env() -> None:
-    load_dotenv(r'/.env')
 
 
 @pytest.fixture(
@@ -60,7 +49,7 @@ class TestCreateDishCommand:
             )
             food_product_cmd = await factory()
 
-        food_products = []
+        ingredients_ids: List[UUID] = []
         for i in range(2):
             prod = await food_product_cmd.create_product_command(
                 name=fake.name(),
@@ -71,13 +60,13 @@ class TestCreateDishCommand:
                 fats=fake.unique.random_int(),
                 carbohydrates=fake.unique.random_int(),
             )
-            food_products.append(prod)
+            ingredients_ids.append(prod.id)
 
         dish = await dish_cmd.create_dish_command(
             name='mock_dish',
-            ingredients=food_products
+            ingredients_ids=ingredients_ids
         )
 
-        print('\n' + '*'*30)
+        print('\n' + '*' * 30)
         print(*[dish], sep='\n\r')
-        print('*'*30 + '\n')
+        print('*' * 30 + '\n')

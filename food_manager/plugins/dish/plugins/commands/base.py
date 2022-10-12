@@ -5,14 +5,14 @@ from ...base.core.commands import DishCommandsFactory
 from ...base.core.commands import FactoryDishCommandsFactory
 from ...impl.commands.base import BaseDishCommandsFactory
 from ....logger.core import LoggerFactory
-from ....repositories.food_product.core import FoodProductRepositoryFactory
+from ....repositories.dish.core import DishRepositoryFactory
 
 __all__ = ['load']
 
 
 async def load() -> None:
     logger_factory = get_factory(factory_type=LoggerFactory)
-    repository_factory = get_factory(factory_type=FoodProductRepositoryFactory)
+    repository_factory = get_factory(factory_type=DishRepositoryFactory)
     logger = await logger_factory()
     repository = await repository_factory()
 

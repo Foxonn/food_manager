@@ -15,14 +15,6 @@ from food_manager.utils.initialization_plugins import initialization_plugins
 
 
 @pytest.fixture(
-    autouse=True,
-    scope="session"
-)
-def init_env() -> None:
-    load_dotenv(r'/.env')
-
-
-@pytest.fixture(
     scope='session'
 )
 def event_loop():
