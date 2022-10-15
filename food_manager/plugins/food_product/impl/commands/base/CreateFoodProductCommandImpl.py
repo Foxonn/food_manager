@@ -32,9 +32,7 @@ class CreateFoodProductCommandImpl(
         fats: int,
         carbohydrates: int,
     ) -> FoodProductDbModel:
-        time = datetime.now()
         product = FoodProductDbModel(
-            id=uuid4(),
             name=name,
             price=price,
             unit_measurement=unit_measurement,
@@ -44,8 +42,6 @@ class CreateFoodProductCommandImpl(
                 fats=fats,
                 carbohydrates=carbohydrates,
             ),
-            created_at=time,
-            updated_at=time,
         )
         await self.__repository.add_product(
             product=product

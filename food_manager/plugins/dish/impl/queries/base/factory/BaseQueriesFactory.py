@@ -6,7 +6,7 @@ from aiologger import Logger
 from ..GetDishByIDQueryImpl import GetDishByIDQueryImpl
 from ..GetAllDishesQueryImpl import GetAllDishesQueryImpl
 from .....base.core.queries import DishQueriesFactory
-from .....base.models import DishModel
+from .....base.models import DishDbModel
 from ......repositories.dish.core import DishRepository
 
 __all__ = ['BaseDishQueriesFactory']
@@ -31,7 +31,7 @@ class BaseDishQueriesFactory(
     async def get_dish_by_id_query(
         self,
         id: UUID
-    ) -> DishModel:
+    ) -> DishDbModel:
         return await GetDishByIDQueryImpl(
             logger=self.__logger,
             repository=self.__repository,
@@ -39,7 +39,7 @@ class BaseDishQueriesFactory(
             id=id
         )
 
-    async def get_all_dishes(self) -> Collection[DishModel]:
+    async def get_all_dishes(self) -> Collection[DishDbModel]:
         return await GetAllDishesQueryImpl(
             logger=self.__logger,
             repository=self.__repository,

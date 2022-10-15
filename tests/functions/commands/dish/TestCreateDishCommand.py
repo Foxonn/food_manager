@@ -1,15 +1,19 @@
 import asyncio
 import os
 from typing import List
-from uuid import UUID
 
 import pytest
 from faker import Faker
 from galo_ioc import FactoryContainerImpl
 from galo_ioc import get_factory
 
-from food_manager.plugins.dish.base.core.commands import FactoryDishCommandsFactory
-from food_manager.plugins.food_product.base.core.commands import FactoryFoodProductCommandsFactory
+from food_manager.plugins.dish.base.core.commands import \
+    FactoryDishCommandsFactory
+from food_manager.plugins.dish.base.core.queries import \
+    FactoryDishQueriesFactory
+from food_manager.plugins.food_product.base.core.commands import \
+    FactoryFoodProductCommandsFactory
+from food_manager.plugins.food_product.base.models import FoodProductDbModel
 from food_manager.utils.initialization_plugins import initialization_plugins
 
 
@@ -45,11 +49,16 @@ class TestCreateDishCommand:
             dish_cmd = await factory()
 
             factory = get_factory(
+                factory_type=FactoryDishQueriesFactory
+            )
+            dish_query = await factory()
+
+            factory = get_factory(
                 factory_type=FactoryFoodProductCommandsFactory
             )
             food_product_cmd = await factory()
 
-        ingredients_ids: List[UUID] = []
+        ingredients: List[FoodProductDbModel] = []
         for i in range(2):
             prod = await food_product_cmd.create_product_command(
                 name=fake.name(),
@@ -60,13 +69,25 @@ class TestCreateDishCommand:
                 fats=fake.unique.random_int(),
                 carbohydrates=fake.unique.random_int(),
             )
-            ingredients_ids.append(prod.id)
+            ingredients.append(prod)
 
         dish = await dish_cmd.create_dish_command(
-            name='mock_dish',
-            ingredients_ids=ingredients_ids
+            name=f'{fake.name()}_dish',
+            ingredients=ingredients
         )
 
-        print('\n' + '*' * 30)
-        print(*[dish], sep='\n\r')
-        print('*' * 30 + '\n')
+        dish = await dish_query.get_dish_by_id_query(
+            id=dish.id
+        )
+
+        assert dish
+        assert dish.total_sum != 0
+        assert dish.total_fats != 0
+        assert dish.total_calories != 0
+        assert dish.total_proteins != 0
+        assert dish.total_carbohydrates != 0
+
+        # await dish_cmd.delete_dish_command(id=dish.id)
+        #
+        # for product in ingredients:
+        #     await food_product_cmd.delete_product_command(product.id)

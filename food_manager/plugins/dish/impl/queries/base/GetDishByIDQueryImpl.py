@@ -2,7 +2,7 @@ from logging import Logger
 from uuid import UUID
 
 from ....base.core.queries import GetDishByIDQuery
-from ....base.models import DishModel
+from ....base.models import DishDbModel
 from .....repositories.dish.core import DishRepository
 
 __all__ = ['GetDishByIDQueryImpl']
@@ -27,7 +27,7 @@ class GetDishByIDQueryImpl(
     async def __call__(
         self,
         id: UUID
-    ) -> DishModel:
-        return await self.__repository.get_dish(
+    ) -> DishDbModel:
+        return await self.__repository.get_dish_by_id(
             id=id
         )

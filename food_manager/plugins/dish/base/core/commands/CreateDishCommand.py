@@ -1,7 +1,6 @@
 from typing import List
 
-from ...models import DishBaseModel
-from ...models import DishModel
+from ...models import DishDbModel
 from .....food_product.base.models import FoodProductDbModel
 
 __all__ = ['CreateDishCommand']
@@ -14,5 +13,5 @@ class CreateDishCommand:
         self,
         name: str,
         ingredients: List[FoodProductDbModel]
-    ) -> DishModel:
+    ) -> DishDbModel:
         raise NotImplementedError

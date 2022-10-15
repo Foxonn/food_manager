@@ -1,3 +1,4 @@
+import asyncio
 import json
 from typing import List
 from uuid import UUID
@@ -9,7 +10,8 @@ from tinydb.table import Table
 from food_manager.plugins.base.exceptions import NotFoundException
 from food_manager.plugins.base.exceptions import RecordAlreadyExist
 from food_manager.plugins.dish.base.models import DishDbModel
-from food_manager.plugins.dish.base.models import DishModel
+from food_manager.plugins.dish.base.models import DishFromDbModel
+from food_manager.plugins.food_product.base.core.queries import FoodProductsQueriesFactory
 from ...core import DishRepository
 
 __all__ = ['DishRepositoryTinyDB']
@@ -33,7 +35,7 @@ class DishRepositoryTinyDB(
         self.__logger = logger
         self.__table = table
 
-    async def get_dish(self, id: UUID) -> DishModel:
+    async def get_dish_by_id(self, id: UUID) -> DishDbModel:
         records = self.__table.search(
             self.__dish.id == str(id)
         )
@@ -41,9 +43,20 @@ class DishRepositoryTinyDB(
         if not records:
             raise NotFoundException(id)
 
-        return DishModel(**records[0])
+        record = records[0]
 
-    async def get_all_dishes(self) -> List[DishModel]:
+        record = DishFromDbModel(
+            id=record['id'],
+            name=record['name'],
+            ingredients=[i['id'] for i in record['ingredients']],
+            # TODO: невозможно без запроса получить связанные данные
+            updated_at=record['updated_at'],
+            created_at=record['created_at'],
+        )
+
+        return record
+
+    async def get_all_dishes(self) -> List[DishDbModel]:
         raise NotImplementedError
 
     async def add_dish(self, dish: DishDbModel) -> None:
@@ -53,16 +66,13 @@ class DishRepositoryTinyDB(
         if records:
             raise RecordAlreadyExist()
 
-        self.__table.insert(
-            json.loads(
-                dish.json(models_as_dict=True)
-            )
-        )
+        data = json.loads(dish.json(models_as_dict=True))
+        self.__table.insert(data)
 
     async def delete_dish(self, id: UUID) -> None:
         self.__table.remove(
             self.__dish.id == str(id)
         )
 
-    async def update_dish(self, dish: DishModel) -> None:
+    async def update_dish(self, dish: DishDbModel) -> None:
         pass

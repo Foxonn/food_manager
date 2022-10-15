@@ -1,6 +1,7 @@
 from typing import List
 from uuid import UUID
 
+from ......food_product.base.models import FoodProductDbModel
 from ....models import DishDbModel
 
 __all__ = ['DishCommandsFactory']
@@ -12,7 +13,7 @@ class DishCommandsFactory:
     async def create_dish_command(
         self,
         name: str,
-        ingredients_ids: List[UUID],
+        ingredients: List[FoodProductDbModel],
     ) -> DishDbModel:
         raise NotImplementedError
 
