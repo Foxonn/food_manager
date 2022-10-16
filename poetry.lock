@@ -10,6 +10,17 @@ python-versions = ">=3.7"
 aiofiles = ["aiofiles (==0.4.0)"]
 
 [[package]]
+name = "aiosqlite"
+version = "0.17.0"
+description = "asyncio bridge to the standard sqlite3 module"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+typing_extensions = ">=3.7.2"
+
+[[package]]
 name = "attrs"
 version = "22.1.0"
 description = "Classes Without Boilerplate"
@@ -214,11 +225,15 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "baa386f89ebc9cd55a38796f37c94dad6456b866ed1e9339025e1b571aaf9ca4"
+content-hash = "4646cd33107e90cce62a14531fb1a1010408c3c628e826ffbc3e77029d8ecd91"
 
 [metadata.files]
 aiologger = [
     {file = "aiologger-0.7.0.tar.gz", hash = "sha256:7a4d5c91b836b61e842a791071786a3d80d6b6fa46fb8fd8e73391253ecb72ac"},
+]
+aiosqlite = [
+    {file = "aiosqlite-0.17.0-py3-none-any.whl", hash = "sha256:6c49dc6d3405929b1d08eeccc72306d3677503cc5e5e43771efc1e00232e8231"},
+    {file = "aiosqlite-0.17.0.tar.gz", hash = "sha256:f0e6acc24bc4864149267ac82fb46dfb3be4455f99fe21df82609cc6e6baee51"},
 ]
 attrs = [
     {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},

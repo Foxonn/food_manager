@@ -1,9 +1,12 @@
 # logger
 food_manager.plugins.logger.plugins.aiologging
 
+# db
+food_manager.plugins.db_providers.plugins.aiosqlite
+
 # repositories
-food_manager.plugins.repositories.food_product.plugins.tiny_db
-food_manager.plugins.repositories.dish.plugins.tiny_db
+food_manager.plugins.repositories.food_product.plugins.aiosqlite
+food_manager.plugins.repositories.dish.plugins.aiosqlite
 
 # food_product
 food_manager.plugins.food_product.plugins.queries.base
