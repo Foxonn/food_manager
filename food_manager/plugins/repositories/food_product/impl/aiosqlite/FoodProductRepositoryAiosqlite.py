@@ -2,9 +2,9 @@ from typing import Collection
 from uuid import UUID
 
 from aiologger import Logger
-from aiosqlite import Connection
 
 from ...core import FoodProductRepository
+from .....db_providers.providers.aiosqlite.base import AiosqliteFactory
 from .....food_product.base.models import FoodProductDbModel
 
 __all__ = ['FoodProductRepositoryAiosqlite']
@@ -15,16 +15,16 @@ class FoodProductRepositoryAiosqlite(
 ):
     __slots__ = (
         '__logger',
-        '__con',
+        '__aiosqlite_factory',
     )
 
     def __init__(
         self,
         logger: Logger,
-        con: Connection,
+        aiosqlite_factory: AiosqliteFactory,
     ) -> None:
         self.__logger = logger
-        self.__con = con
+        self.__aiosqlite_factory = aiosqlite_factory
 
     async def get_product(self, id: UUID) -> FoodProductDbModel:
         pass

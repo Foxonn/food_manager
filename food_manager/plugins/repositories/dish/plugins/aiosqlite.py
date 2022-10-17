@@ -11,11 +11,11 @@ __all__ = ['load']
 
 
 async def load() -> None:
-    aiosqlite = get_factory(
-        factory_type=AiosqliteFactory
-    )
     factory_logger = get_factory(
         factory_type=LoggerFactory
+    )
+    factory_aiosqlite = get_factory(
+        factory_type=AiosqliteFactory
     )
     logger = await factory_logger()
 
@@ -27,7 +27,7 @@ async def load() -> None:
 
     repository = DishRepositoryAiosqlite(
         logger=logger,
-        aiosqlite_factory=aiosqlite,
+        aiosqlite_factory=factory_aiosqlite,
     )
 
     add_factory(

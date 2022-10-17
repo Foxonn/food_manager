@@ -19,11 +19,10 @@ async def load() -> None:
     factory_logger = get_factory(
         factory_type=LoggerFactory
     )
-    aiosqlite = get_factory(
+    factory_aiosqlite = get_factory(
         factory_type=AiosqliteFactory
     )
     logger = await factory_logger()
-    con = await aiosqlite()
 
     class FoodProductRepositoryFactoryAiosqlite(
         FoodProductRepositoryFactory
@@ -33,7 +32,7 @@ async def load() -> None:
 
     repository = FoodProductRepositoryAiosqlite(
         logger=logger,
-        con=con,
+        aiosqlite_factory=factory_aiosqlite,
     )
 
     add_factory(

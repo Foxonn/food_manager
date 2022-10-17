@@ -28,6 +28,6 @@ class GetDishByIDQueryImpl(
         self,
         id: UUID
     ) -> DishDbModel:
-        return await self.__repository.get_dish_by_id(
+        return await self.__repository.get_dish(
             id=id
         )

@@ -35,7 +35,7 @@ class DishRepositoryTinyDB(
         self.__logger = logger
         self.__table = table
 
-    async def get_dish_by_id(self, id: UUID) -> DishDbModel:
+    async def get_dish(self, id: UUID) -> DishDbModel:
         records = self.__table.search(
             self.__dish.id == str(id)
         )

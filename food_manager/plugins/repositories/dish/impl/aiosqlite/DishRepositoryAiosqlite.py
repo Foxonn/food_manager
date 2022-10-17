@@ -2,12 +2,10 @@ from typing import Collection
 from uuid import UUID
 
 from aiologger import Logger
-from aiosqlite import Connection
 
-from food_manager.plugins.db_providers.providers.aiosqlite.base import \
-    AiosqliteFactory
-from food_manager.plugins.dish.base.models import DishDbModel
 from ...core import DishRepository
+from .....db_providers.providers.aiosqlite.base import AiosqliteFactory
+from .....dish.base.models import DishDbModel
 
 __all__ = ['DishRepositoryAiosqlite']
 
@@ -28,7 +26,7 @@ class DishRepositoryAiosqlite(
         self.__logger = logger
         self.__aiosqlite_factory = aiosqlite_factory
 
-    async def get_dish_by_id(self, id: UUID) -> DishDbModel:
+    async def get_dish(self, id: UUID) -> DishDbModel:
         pass
 
     async def get_all_dishes(self) -> Collection[DishDbModel]:
@@ -42,5 +40,3 @@ class DishRepositoryAiosqlite(
 
     async def update_dish(self, dish: DishDbModel) -> None:
         pass
-
-

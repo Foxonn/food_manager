@@ -9,7 +9,7 @@ __all__ = ['DishRepository']
 class DishRepository:
     __slots__ = ()
 
-    async def get_dish_by_id(self, id: UUID) -> DishDbModel:
+    async def get_dish(self, id: UUID) -> DishDbModel:
         raise NotImplementedError
 
     async def get_all_dishes(self) -> Collection[DishDbModel]:
